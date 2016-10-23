@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "sourceMap": false,
+    "inlineSourceMap": true
+  },
+  "files": [
+
+  ],
+  "exclude": [
+    "node_modules",
+    "typings"
+  ]
+}

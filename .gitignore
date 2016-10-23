@@ -1,0 +1,9 @@
+.idea
+node_modules
+*.js
+*.log
+*.xml
+*.DS_Store
+*.map
+*.log
+*.tmp

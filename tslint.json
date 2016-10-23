@@ -1,0 +1,13 @@
+{
+  "extends": "tslint:latest",
+  "rules": {
+    "no-bitwise": false,
+    "max-line-length": [
+      true,
+      320
+    ],
+    "no-var-requires": false,
+    "variable-name": false,
+    "no-unused-variable": false
+  }
+}
