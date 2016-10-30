@@ -1,11 +1,7 @@
 "use strict";
 /**
- * TODO: Refactor this file
- */
-/**
  * Import sub interfaces
  */
-import IAnimationFrame from "./IAnimationFrame";
 import ILocalStorage from "./ILocalStorage";
 import ISessionStorage from "./ISessionStorage";
 import IDebug from "./IDebug";
@@ -32,7 +28,6 @@ interface IWindow {
     oRequestAnimationFrame: Function;
     msRequestAnimationFrame: Function;
 
-    AnimationFrame: IAnimationFrame;
     localStorage: ILocalStorage;
     sessionStorage: ISessionStorage;
     Debug: IDebug;

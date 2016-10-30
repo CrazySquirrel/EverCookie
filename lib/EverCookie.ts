@@ -28,8 +28,8 @@ import IStorage from "../interfaces/IStorage";
 /**
  * Import Animation frame
  */
-import AnimationFrame from "../vendors/AnimationFrame";
-
+declare var require: any;
+let AnimationFrame = require("AnimationFrame");
 /**
  * Import storages
  */
@@ -396,7 +396,7 @@ export default class EverCookie implements IStorage {
      * @param checkSupport {boolean}
      * @returns {boolean}
      */
-    public clear(checkSupport: boolean) {
+    public clear(checkSupport: boolean): boolean {
         /**
          * Set result flag as true
          * @type {boolean}
@@ -456,7 +456,7 @@ export default class EverCookie implements IStorage {
     /**
      * Self refresh
      */
-    public refresh() {
+    public refresh(): void {
         if (!this.stopRefresh) {
             let arrKeys: Array<string> = this.getKeys(false);
             for (let key of arrKeys) {
@@ -476,12 +476,13 @@ export default class EverCookie implements IStorage {
     /**
      * Stop every cookie
      */
-    public destroy() {
+    public destroy(): boolean {
         AnimationFrame.unsubscribe(this.refreshID);
         this.stopRefresh = true;
         this.refresh = () => {
             return null;
         };
         this.stores = [];
+        return true;
     }
 }

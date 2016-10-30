@@ -15,8 +15,7 @@ const MD5 = require("crypto-js/md5");
 /**
  * Import Animation frame
  */
-import AnimationFrame from "./AnimationFrame";
-
+let AnimationFrame = require("AnimationFrame");
 import Utils from "./Utils";
 
 const STATUSES: any = {

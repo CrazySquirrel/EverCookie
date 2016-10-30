@@ -1,4 +1,10 @@
 # EverCookie
+[![npm version](https://badge.fury.io/js/EverCookie.svg)](https://github.com/CrazySquirrel/EverCookie)
+[![license](https://img.shields.io/github/license/CrazySquirrel/EverCookie.svg)](https://github.com/CrazySquirrel/EverCookie)
+[![Github All Releases](https://img.shields.io/github/downloads/CrazySquirrel/EverCookie/total.svg)](https://github.com/CrazySquirrel/EverCookie)
+[![npm version](https://img.shields.io/badge/donate-%E2%99%A5-red.svg)](http://crazysquirrel.ru/support/)
+
+
 Versatile storage.
 
 ## Build

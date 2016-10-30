@@ -5,7 +5,7 @@
     "inlineSourceMap": true
   },
   "files": [
-
+    "./lib/EverCookie.ts"
   ],
   "exclude": [
     "node_modules",
