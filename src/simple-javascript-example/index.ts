@@ -2,7 +2,7 @@
 declare var require: any;
 require("./index.html");
 
-import EverCookie from "../../lib/EverCookie.ts";
+let EverCookie = require("../../lib/EverCookie.js");
 
 let LocalEverCookie = new EverCookie("test");
 
