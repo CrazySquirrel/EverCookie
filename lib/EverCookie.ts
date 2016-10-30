@@ -25,6 +25,7 @@
  */
 import IStorage from "../interfaces/IStorage";
 
+declare var module: any;
 /**
  * Import Animation frame
  */
@@ -486,3 +487,5 @@ export default class EverCookie implements IStorage {
         return true;
     }
 }
+
+module.exports = EverCookie;
