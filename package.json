@@ -32,7 +32,6 @@
   },
   "dependencies": {
     "AnimationFrame": "^1.0.x",
-    "CSLogger": "^1.0.x",
     "Utils": "^1.0.x",
     "crypto-js": "^3.1.8"
   },

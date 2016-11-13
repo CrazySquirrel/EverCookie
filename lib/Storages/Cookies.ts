@@ -5,7 +5,7 @@
 import IStorage from "../../interfaces/IStorage";
 
 declare var require: any;
-let Utils = require("Utils");
+import Utils from "Utils";
 
 /**
  * The document cookies storage
