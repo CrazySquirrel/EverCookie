@@ -22,7 +22,7 @@
     "testing": "NODE_ENV=testing webpack --bail --config=webpack.config.js",
     "testing:watch": "NODE_ENV=testing webpack --config=webpack.config.js --watch",
     "stats": "NODE_ENV=development webpack --bail --config=webpack.config.js --profile --json > ./doc/stats.json",
-    "docs": "rm -rf ./doc/js/ && typedoc --mode file --target ES6 --module 'commonjs' --out ./doc/js/ ./src/ts/"
+    "docs": "rm -rf ./doc/js/ && typedoc --mode file --target ES6 --module 'commonjs' --experimentalDecorators --ignoreCompilerErrors --out ./doc/js/ ./src/ts/"
   },
   "pre-commit": [],
   "eslintConfig": {
@@ -50,8 +50,8 @@
     "string-replace-webpack-plugin": "0.0.3",
     "ts-loader": "^0.8.2",
     "tslint": "^3.15.1",
-    "typedoc": "^0.4.5",
-    "typescript": "^1.8.10",
+    "typedoc": "^0.5.1",
+    "typescript": "^2.0.9",
     "webpack": "^1.13.3",
     "webpack-notifier": "^1.4.1",
     "clean-webpack-plugin": "^0.1.13",
