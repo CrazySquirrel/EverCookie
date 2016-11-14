@@ -6,7 +6,7 @@ npm run production
 git status
 git add .
 git commit -am "Auto publish"
-gitpush origin master
+git push origin master
 npm version patch
 git push --tags
 npm publish
