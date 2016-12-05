@@ -5,12 +5,16 @@
 import IStorage from "../../interfaces/IStorage";
 
 declare var require: any;
-import Utils from "Utils";
+
+const URL = require("url");
 
 /**
  * The document cookies storage
  */
 export default class Cookies implements IStorage {
+
+    public regValidKey = new RegExp("([a-zA-Z0-9_-]{0,})", "i");
+
     /**
      * The hash needs for splitting scopes storage
      */
@@ -29,7 +33,10 @@ export default class Cookies implements IStorage {
      * @returns {boolean}
      */
     public isSupported(): boolean {
-        return Utils.Cookie.isSupported();
+        return (
+            typeof document === "object" &&
+            typeof document.cookie === "string"
+        );
     }
 
     /**
@@ -43,7 +50,7 @@ export default class Cookies implements IStorage {
      * @param secure {boolean}
      * @return {boolean}
      */
-    public setItem(checkSupport: boolean,
+    public setItem(checkSupport: boolean = true,
                    key: string,
                    value: string,
                    expires: number = 30,
@@ -52,45 +59,93 @@ export default class Cookies implements IStorage {
                    secure: boolean = (location.protocol === "https:")): boolean {
         try {
             /**
-             * If that store is supported
+             * Validate input data
              */
-            if (!checkSupport || this.isSupported()) {
+            if (
+                typeof checkSupport === "boolean" &&
+                (
+                    typeof key === "string" &&
+                    this.regValidKey.test(key)
+                ) &&
+                (
+                    typeof value === "string" &&
+                    (value === "" || this.regValidKey.test(value))
+                ) &&
+                (
+                    typeof expires === "number" &&
+                    expires < 365
+                ) &&
+                typeof path === "string" &&
+                (
+                    typeof domain === "string" &&
+                    domain.indexOf(location.hostname) !== -1
+                ) &&
+                (
+                    typeof secure === "boolean" &&
+                    secure === (location.protocol === "https:")
+                )
+            ) {
                 /**
-                 * The hash needs for splitting scopes storage
-                 * @type {string}
+                 * Validate input data
                  */
-                let localKey: string = this.hash + "_" + key;
-                /**
-                 * Save cookies for 30 days
-                 * @type {Date}
-                 */
-                let date: Date = new Date();
-                date.setTime(date.getTime() + (expires * 24 * 60 * 60 * 1000));
-                let exp: string = date.toUTCString();
-                /**
-                 * Encode value for store
-                 * @type {string}
-                 */
-                value = encodeURIComponent(value);
-                /**
-                 * Writing value to the document cookie storage
-                 * @type {string}
-                 */
-                document.cookie = (
-                    localKey + "=" +
-                    value +
-                    ((exp) ? "; expires=" + exp : "") +
-                    ((path) ? "; path=" + path : "") +
-                    ((domain) ? "; domain=" + domain : "") +
-                    ((secure) ? "; secure" : "")
-                );
-                /**
-                 * If all ok return true
-                 */
-                return this.getItem(checkSupport, key) === value;
+                let u = URL.parse("http://" + domain + path);
+
+                if (
+                    u.hostname === domain ||
+                    u.path === path
+                ) {
+                    /**
+                     * If that store is supported
+                     */
+                    if (!checkSupport || this.isSupported()) {
+                        /**
+                         * The hash needs for splitting scopes storage
+                         * @type {string}
+                         */
+                        let localKey: string = this.hash + "_" + key;
+                        /**
+                         * Save cookies for 30 days
+                         * @type {Date}
+                         */
+                        let date: Date = new Date();
+                        date.setTime(date.getTime() + (expires * 24 * 60 * 60 * 1000));
+                        let exp: string = date.toUTCString();
+                        /**
+                         * Encode value for store
+                         * @type {string}
+                         */
+                        value = encodeURIComponent(value);
+                        /**
+                         * Writing value to the document cookie storage
+                         * @type {string}
+                         */
+                        document.cookie = (
+                            localKey + "=" +
+                            value +
+                            ((exp) ? "; expires=" + exp : "") +
+                            ((path) ? "; path=" + path : "") +
+                            ((domain) ? "; domain=" + domain : "") +
+                            ((secure) ? "; secure" : "")
+                        );
+                        /**
+                         * If all ok return true
+                         */
+                        return this.getItem(checkSupport, key) === decodeURIComponent(value);
+                    } else {
+                        /**
+                         * If cookie does not supported return false
+                         */
+                        return false;
+                    }
+                } else {
+                    /**
+                     * If input data is not valid
+                     */
+                    return false;
+                }
             } else {
                 /**
-                 * If cookie does not supported return false
+                 * If input data is not valid
                  */
                 return false;
             }
@@ -108,48 +163,65 @@ export default class Cookies implements IStorage {
      * @param key {string}
      * @returns {string|boolean}
      */
-    public getItem(checkSupport: boolean, key: string): string|boolean {
+    public getItem(checkSupport: boolean = true,
+                   key: string): string|boolean {
         try {
             /**
-             * If that store is supported
+             * Validate input data
              */
-            if (!checkSupport || this.isSupported()) {
+            if (
+                typeof checkSupport === "boolean" &&
+                (
+                    typeof key === "string" &&
+                    this.regValidKey.test(key)
+                )
+            ) {
                 /**
-                 * The hash needs for splitting scopes storage
-                 * @type {string}
+                 * If that store is supported
                  */
-                key = this.hash + "_" + key;
-                /**
-                 * Get the array from document cookie split by ;
-                 * @type {string[]}
-                 */
-                let arrCookie: Array<string> = document.cookie.split(";");
-                /**
-                 * Iterate through the cookies
-                 */
-                for (let i of arrCookie) {
+                if (!checkSupport || this.isSupported()) {
                     /**
-                     * Trim and split each cookie by = for key value pare
+                     * The hash needs for splitting scopes storage
+                     * @type {string}
+                     */
+                    key = this.hash + "_" + key;
+                    /**
+                     * Get the array from document cookie split by ;
                      * @type {string[]}
                      */
-                    let v: Array<string> = i.trim().split("=", 2);
+                    let arrCookie: Array<string> = document.cookie.split(";");
                     /**
-                     * If it is correct cookie key return the value
+                     * Iterate through the cookies
                      */
-                    if (v[0] === key) {
+                    for (let i of arrCookie) {
                         /**
-                         * If the value was found return the value
+                         * Trim and split each cookie by = for key value pare
+                         * @type {string[]}
                          */
-                        return decodeURIComponent(v[1]);
+                        let v: Array<string> = i.trim().split("=", 2);
+                        /**
+                         * If it is correct cookie key return the value
+                         */
+                        if (v[0] === key) {
+                            /**
+                             * If the value was found return the value
+                             */
+                            return decodeURIComponent(v[1]);
+                        }
                     }
+                    /**
+                     * If the value was not found return false
+                     */
+                    return false;
+                } else {
+                    /**
+                     * If cookie does not supported return false
+                     */
+                    return false;
                 }
-                /**
-                 * If the value was not found return false
-                 */
-                return false;
             } else {
                 /**
-                 * If cookie does not supported return false
+                 * If input data is not valid
                  */
                 return false;
             }
@@ -167,23 +239,40 @@ export default class Cookies implements IStorage {
      * @param key {string}
      * @returns {boolean}
      */
-    public removeItem(checkSupport: boolean, key: string): boolean {
+    public removeItem(checkSupport: boolean = true,
+                      key: string): boolean {
         try {
             /**
-             * If that store is supported
+             * Validate input data
              */
-            if (!checkSupport || this.isSupported()) {
+            if (
+                typeof checkSupport === "boolean" &&
+                (
+                    typeof key === "string" &&
+                    this.regValidKey.test(key)
+                )
+            ) {
                 /**
-                 * Set empty overdue value by key
+                 * If that store is supported
                  */
-                this.setItem(checkSupport, key, "", -1);
-                /**
-                 * If all ok return true
-                 */
-                return (this.getItem(checkSupport, key) === false);
+                if (!checkSupport || this.isSupported()) {
+                    /**
+                     * Set empty overdue value by key
+                     */
+                    this.setItem(checkSupport, key, "", -1 * 24 * 60 * 60);
+                    /**
+                     * If all ok return true
+                     */
+                    return (this.getItem(checkSupport, key) === false);
+                } else {
+                    /**
+                     * If cookie does not supported return false
+                     */
+                    return false;
+                }
             } else {
                 /**
-                 * If cookie does not supported return false
+                 * If input data is not valid
                  */
                 return false;
             }
@@ -200,45 +289,57 @@ export default class Cookies implements IStorage {
      * @param checkSupport {boolean}
      * @returns {string[]}
      */
-    public getKeys(checkSupport: boolean): Array<string> {
+    public getKeys(checkSupport: boolean = true): Array<string> {
         try {
             /**
-             * If that store is supported
+             * Validate input data
              */
-            if (!checkSupport || this.isSupported()) {
+            if (
+                typeof checkSupport === "boolean"
+            ) {
                 /**
-                 * The array of available keys
-                 * @type {Array}
+                 * If that store is supported
                  */
-                let arrKeys: Array<string> = [];
-                /**
-                 * Get the array from document cookie split by ;
-                 * @type {string[]}
-                 */
-                let arrCookie: Array<string> = document.cookie.split(";");
-                /**
-                 * Iterate through the cookies
-                 */
-                for (let i of arrCookie) {
+                if (!checkSupport || this.isSupported()) {
                     /**
-                     * Trim and split each cookie by = for key value pare
+                     * The array of available keys
+                     * @type {Array}
+                     */
+                    let arrKeys: Array<string> = [];
+                    /**
+                     * Get the array from document cookie split by ;
                      * @type {string[]}
                      */
-                    let v: Array<string> = i.trim().split("=", 2);
+                    let arrCookie: Array<string> = document.cookie.split(";");
                     /**
-                     * If the key contains hash add it to the list
+                     * Iterate through the cookies
                      */
-                    if (v[0].indexOf(this.hash) === 0) {
+                    for (let i of arrCookie) {
                         /**
-                         * Add key to the list
+                         * Trim and split each cookie by = for key value pare
+                         * @type {string[]}
                          */
-                        arrKeys.push(v[0].substr(this.hash.length + 1));
+                        let v: Array<string> = i.trim().split("=", 2);
+                        /**
+                         * If the key contains hash add it to the list
+                         */
+                        if (v[0].indexOf(this.hash) === 0) {
+                            /**
+                             * Add key to the list
+                             */
+                            arrKeys.push(v[0].substr(this.hash.length + 1));
+                        }
                     }
+                    return arrKeys;
+                } else {
+                    /**
+                     * If cookie does not supported return false
+                     */
+                    return [];
                 }
-                return arrKeys;
             } else {
                 /**
-                 * If cookie does not supported return false
+                 * If input data is not valid
                  */
                 return [];
             }
@@ -255,27 +356,39 @@ export default class Cookies implements IStorage {
      * @param checkSupport {boolean}
      * @returns {boolean}
      */
-    public clear(checkSupport: boolean): boolean {
+    public clear(checkSupport: boolean = true): boolean {
         try {
             /**
-             * If that store is supported
+             * Validate input data
              */
-            if (!checkSupport || this.isSupported()) {
-                let arrKeys = this.getKeys(checkSupport);
-                if (arrKeys) {
-                    for (let i of arrKeys) {
-                        this.removeItem(checkSupport, i);
-                    }
-                }
+            if (
+                typeof checkSupport === "boolean"
+            ) {
                 /**
-                 * If all ok return true
+                 * If that store is supported
                  */
-                return (this.getKeys(checkSupport).length === 0);
+                if (!checkSupport || this.isSupported()) {
+                    let arrKeys = this.getKeys(checkSupport);
+                    if (arrKeys) {
+                        for (let i of arrKeys) {
+                            this.removeItem(checkSupport, i);
+                        }
+                    }
+                    /**
+                     * If all ok return true
+                     */
+                    return (this.getKeys(checkSupport).length === 0);
+                } else {
+                    /**
+                     * If cookie does not supported return false
+                     */
+                    return true;
+                }
             } else {
                 /**
-                 * If cookie does not supported return false
+                 * If input data is not valid
                  */
-                return true;
+                return false;
             }
         } catch (e) {
             /**

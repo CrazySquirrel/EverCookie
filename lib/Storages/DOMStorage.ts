@@ -7,10 +7,14 @@ import IStorage from "../../interfaces/IStorage";
  * The DOMStorage
  */
 export default class DOMStorage implements IStorage {
+
+    public regValidKey = new RegExp("([a-zA-Z0-9_-]{0,})", "i");
+
     /**
      * The hash needs for splitting scopes storage
      */
     private hash: string;
+
     /**
      * DOM storage element
      */
@@ -56,29 +60,51 @@ export default class DOMStorage implements IStorage {
      * @param value {string}
      * @return {boolean}
      */
-    public setItem(checkSupport: boolean, key: string, value: string): boolean {
+    public setItem(checkSupport: boolean = true,
+                   key: string,
+                   value: string): boolean {
         try {
             /**
-             * If that store is supported
+             * Validate input data
              */
-            if (!checkSupport || this.isSupported()) {
+            if (
+                typeof checkSupport === "boolean" &&
+                (
+                    typeof key === "string" &&
+                    this.regValidKey.test(key)
+                ) &&
+                (
+                    typeof value === "string" &&
+                    (value === "" || this.regValidKey.test(value))
+                )
+            ) {
                 /**
-                 * The hash needs for splitting scopes storage
-                 * @type {string}
+                 * If that store is supported
                  */
-                let localKey: string = this.hash + "_" + key;
-                /**
-                 * Set dom value
-                 */
-                this.domStorage.setAttribute(localKey, value);
-                this.domStorage.save(this.hash);
-                /**
-                 * If all ok return true
-                 */
-                return this.getItem(checkSupport, key) === value;
+                if (!checkSupport || this.isSupported()) {
+                    /**
+                     * The hash needs for splitting scopes storage
+                     * @type {string}
+                     */
+                    let localKey: string = this.hash + "_" + key;
+                    /**
+                     * Set dom value
+                     */
+                    this.domStorage.setAttribute(localKey, value);
+                    this.domStorage.save(this.hash);
+                    /**
+                     * If all ok return true
+                     */
+                    return this.getItem(checkSupport, key) === value;
+                } else {
+                    /**
+                     * If cookie does not supported return false
+                     */
+                    return false;
+                }
             } else {
                 /**
-                 * If cookie does not supported return false
+                 * If input data is not valid
                  */
                 return false;
             }
@@ -96,33 +122,50 @@ export default class DOMStorage implements IStorage {
      * @param key {string}
      * @returns {string|boolean}
      */
-    public getItem(checkSupport: boolean, key: string): string|boolean {
+    public getItem(checkSupport: boolean = true,
+                   key: string): string|boolean {
         try {
             /**
-             * If that store is supported
+             * Validate input data
              */
-            if (!checkSupport || this.isSupported()) {
+            if (
+                typeof checkSupport === "boolean" &&
+                (
+                    typeof key === "string" &&
+                    this.regValidKey.test(key)
+                )
+            ) {
                 /**
-                 * The hash needs for splitting scopes storage
-                 * @type {string}
+                 * If that store is supported
                  */
-                let localKey: string = this.hash + "_" + key;
-                /**
-                 * Get value
-                 */
-                this.domStorage.load(this.hash);
-                let value: string = this.domStorage.getAttribute(localKey);
-                /**
-                 * If value exist, return it
-                 */
-                if (value) {
-                    return value;
+                if (!checkSupport || this.isSupported()) {
+                    /**
+                     * The hash needs for splitting scopes storage
+                     * @type {string}
+                     */
+                    let localKey: string = this.hash + "_" + key;
+                    /**
+                     * Get value
+                     */
+                    this.domStorage.load(this.hash);
+                    let value: string = this.domStorage.getAttribute(localKey);
+                    /**
+                     * If value exist, return it
+                     */
+                    if (value) {
+                        return value;
+                    } else {
+                        return false;
+                    }
                 } else {
+                    /**
+                     * If cookie does not supported return false
+                     */
                     return false;
                 }
             } else {
                 /**
-                 * If cookie does not supported return false
+                 * If input data is not valid
                  */
                 return false;
             }
@@ -140,30 +183,47 @@ export default class DOMStorage implements IStorage {
      * @param key {string}
      * @returns {boolean}
      */
-    public removeItem(checkSupport: boolean, key: string): boolean {
+    public removeItem(checkSupport: boolean = true,
+                      key: string): boolean {
         try {
             /**
-             * If that store is supported
+             * Validate input data
              */
-            if (!checkSupport || this.isSupported()) {
+            if (
+                typeof checkSupport === "boolean" &&
+                (
+                    typeof key === "string" &&
+                    this.regValidKey.test(key)
+                )
+            ) {
                 /**
-                 * The hash needs for splitting scopes storage
-                 * @type {string}
+                 * If that store is supported
                  */
-                let localKey: string = this.hash + "_" + key;
-                /**
-                 * Clean value and remove
-                 * @type {boolean}
-                 */
-                this.domStorage.removeAttribute(localKey);
-                this.domStorage.save(this.hash);
-                /**
-                 * If all ok return true
-                 */
-                return (this.getItem(checkSupport, key) === false);
+                if (!checkSupport || this.isSupported()) {
+                    /**
+                     * The hash needs for splitting scopes storage
+                     * @type {string}
+                     */
+                    let localKey: string = this.hash + "_" + key;
+                    /**
+                     * Clean value and remove
+                     * @type {boolean}
+                     */
+                    this.domStorage.removeAttribute(localKey);
+                    this.domStorage.save(this.hash);
+                    /**
+                     * If all ok return true
+                     */
+                    return (this.getItem(checkSupport, key) === false);
+                } else {
+                    /**
+                     * If cookie does not supported return false
+                     */
+                    return false;
+                }
             } else {
                 /**
-                 * If cookie does not supported return false
+                 * If input data is not valid
                  */
                 return false;
             }
@@ -180,41 +240,53 @@ export default class DOMStorage implements IStorage {
      * @param checkSupport {boolean}
      * @returns {string[]}
      */
-    public getKeys(checkSupport: boolean): Array<string> {
+    public getKeys(checkSupport: boolean = true): Array<string> {
         try {
             /**
-             * If that store is supported
+             * Validate input data
              */
-            if (!checkSupport || this.isSupported()) {
+            if (
+                typeof checkSupport === "boolean"
+            ) {
                 /**
-                 * The array of available keys
-                 * @type {Array}
+                 * If that store is supported
                  */
-                let arrKeys: Array<string> = [];
-                /**
-                 * Get the array from document cookie split by ;
-                 * @type {string[]}
-                 */
-                let localArrKeys: Array<Attr> = this.domStorage.XMLDocument.documentElement.attributes;
-                /**
-                 * Iterate through the globalStorage
-                 */
-                for (let i = 0; i < localArrKeys.length; i++) {
-                    let key: string = localArrKeys[i].name;
+                if (!checkSupport || this.isSupported()) {
                     /**
-                     * If the key contains hash add it to the list
+                     * The array of available keys
+                     * @type {Array}
                      */
-                    if (key.indexOf(this.hash) === 0) {
+                    let arrKeys: Array<string> = [];
+                    /**
+                     * Get the array from document cookie split by ;
+                     * @type {string[]}
+                     */
+                    let localArrKeys: Array<Attr> = this.domStorage.XMLDocument.documentElement.attributes;
+                    /**
+                     * Iterate through the globalStorage
+                     */
+                    for (let i = 0; i < localArrKeys.length; i++) {
+                        let key: string = localArrKeys[i].name;
                         /**
-                         * Add key to the list
+                         * If the key contains hash add it to the list
                          */
-                        arrKeys.push(key.substr(this.hash.length + 1));
+                        if (key.indexOf(this.hash) === 0) {
+                            /**
+                             * Add key to the list
+                             */
+                            arrKeys.push(key.substr(this.hash.length + 1));
+                        }
                     }
+                    return arrKeys;
+                } else {
+                    /**
+                     * If cookie does not supported return false
+                     */
+                    return [];
                 }
-                return arrKeys;
             } else {
                 /**
-                 * If cookie does not supported return false
+                 * If input data is not valid
                  */
                 return [];
             }
@@ -231,27 +303,39 @@ export default class DOMStorage implements IStorage {
      * @param checkSupport {boolean}
      * @returns {boolean}
      */
-    public clear(checkSupport: boolean): boolean {
+    public clear(checkSupport: boolean = true): boolean {
         try {
             /**
-             * If that store is supported
+             * Validate input data
              */
-            if (!checkSupport || this.isSupported()) {
-                let arrKeys = this.getKeys(checkSupport);
-                if (arrKeys) {
-                    for (let i of arrKeys) {
-                        this.removeItem(checkSupport, i);
-                    }
-                }
+            if (
+                typeof checkSupport === "boolean"
+            ) {
                 /**
-                 * If all ok return true
+                 * If that store is supported
                  */
-                return (this.getKeys(checkSupport).length === 0);
+                if (!checkSupport || this.isSupported()) {
+                    let arrKeys = this.getKeys(checkSupport);
+                    if (arrKeys) {
+                        for (let i of arrKeys) {
+                            this.removeItem(checkSupport, i);
+                        }
+                    }
+                    /**
+                     * If all ok return true
+                     */
+                    return (this.getKeys(checkSupport).length === 0);
+                } else {
+                    /**
+                     * If cookie does not supported return false
+                     */
+                    return true;
+                }
             } else {
                 /**
-                 * If cookie does not supported return false
+                 * If input data is not valid
                  */
-                return true;
+                return false;
             }
         } catch (e) {
             /**

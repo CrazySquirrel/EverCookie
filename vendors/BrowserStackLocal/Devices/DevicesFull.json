@@ -1,0 +1,86 @@
+{
+  "OS X": {
+    "El Capitan": {
+      "Safari": [
+        "9.1"
+      ],
+      "Firefox": [
+        "46.0"
+      ],
+      "Chrome": [
+        "52.0"
+      ]
+    },
+    "Yosemite": {
+      "Safari": [
+        "8.0"
+      ]
+    },
+    "Mavericks": {
+      "Safari": [
+        "7.1"
+      ]
+    },
+    "Mountain Lion": {
+      "Safari": [
+        "6.2"
+      ]
+    },
+    "Lion": {
+      "Safari": [
+        "6.0"
+      ]
+    },
+    "Snow Leopard": {
+      "Safari": [
+        "5.1"
+      ]
+    }
+  },
+  "Windows": {
+    "10": {
+      "IE": [
+        "11.0"
+      ],
+      "Edge": [
+        "13.0"
+      ],
+      "Firefox": [
+        "48.0"
+      ],
+      "Chrome": [
+        "52.0"
+      ]
+    },
+    "8": {
+      "IE": [
+        "10.0"
+      ]
+    },
+    "7": {
+      "IE": [
+        "9.0"
+      ]
+    }
+  },
+  "MAC": {
+    "iPhone": [
+      "iPhone 6S Plus",
+      "iPhone 6 Plus",
+      "iPhone 5",
+      "iPhone 4S"
+    ],
+    "iPad": [
+      "iPad 2 (5.0)",
+      "iPad Mini 2",
+      "iPad Air",
+      "iPad Pro"
+    ]
+  },
+  "ANDROID": {
+    "android": [
+      "Samsung Galaxy S5",
+      "Samsung Galaxy Tab 4 10.1"
+    ]
+  }
+}

@@ -43,18 +43,24 @@ import SessionStorage from "./Storages/SessionStorage";
  * EverCookie storage
  */
 export default class EverCookie implements IStorage {
+
+    public regValidKey = new RegExp("([a-zA-Z0-9_-]{0,})", "i");
+
     /**
      * The hash needs for splitting scopes storage
      */
     private hash: string;
+
     /**
      * Different types of stores
      */
     private stores: Array<any>;
+
     /**
      * Self refresh flag
      */
     private stopRefresh: boolean;
+
     /**
      * Refresh animation frame ID
      */
@@ -123,7 +129,9 @@ export default class EverCookie implements IStorage {
      * @param value {string}
      * @returns {boolean}
      */
-    public setItem(checkSupport: boolean, key: string, value: string) {
+    public setItem(checkSupport: boolean = true,
+                   key: string,
+                   value: string) {
         /**
          * Set result flag as true
          * @type {boolean}
@@ -136,32 +144,52 @@ export default class EverCookie implements IStorage {
         this.stopRefresh = true;
         try {
             /**
-             * If that store is supported
+             * Validate input data
              */
-            if (!checkSupport || this.isSupported()) {
+            if (
+                typeof checkSupport === "boolean" &&
+                (
+                    typeof key === "string" &&
+                    this.regValidKey.test(key)
+                ) &&
+                (
+                    typeof value === "string" &&
+                    (value === "" || this.regValidKey.test(value))
+                )
+            ) {
                 /**
-                 * Initialise store result array
-                 * @type {Array}
+                 * If that store is supported
                  */
-                let arResults: Array<boolean> = [];
-                /**
-                 * Iterate through all supported stores
-                 */
-                for (let store of this.stores) {
+                if (!checkSupport || this.isSupported()) {
                     /**
-                     * Write store operation result to result array
+                     * Initialise store result array
+                     * @type {Array}
                      */
-                    arResults.push(store.setItem(false, key, value));
+                    let arResults: Array<boolean> = [];
+                    /**
+                     * Iterate through all supported stores
+                     */
+                    for (let store of this.stores) {
+                        /**
+                         * Write store operation result to result array
+                         */
+                        arResults.push(store.setItem(false, key, value));
+                    }
+                    /**
+                     * If there exist result and one of them is true, it is means, that value was set
+                     * @type {boolean}
+                     */
+                    booResult = (arResults.length > 0 && arResults.indexOf(true) !== -1);
+                } else {
+                    /**
+                     * If stores does not supported, value can be set
+                     * @type {boolean}
+                     */
+                    booResult = false;
                 }
-                /**
-                 * If there exist result and one of them is true, it is means, that value was set
-                 * @type {boolean}
-                 */
-                booResult = (arResults.length > 0 && arResults.indexOf(true) !== -1);
             } else {
                 /**
-                 * If stores does not supported, value can be set
-                 * @type {boolean}
+                 * If input data is not valid
                  */
                 booResult = false;
             }
@@ -189,7 +217,8 @@ export default class EverCookie implements IStorage {
      * @param key {string}
      * @returns {string|boolean}
      */
-    public getItem(checkSupport: boolean, key: string) {
+    public getItem(checkSupport: boolean = true,
+                   key: string) {
         /**
          * Set result flag as true
          * @type {boolean|string}
@@ -202,52 +231,68 @@ export default class EverCookie implements IStorage {
         this.stopRefresh = true;
         try {
             /**
-             * If that store is supported
+             * Validate input data
              */
-            if (!checkSupport || this.isSupported()) {
+            if (
+                typeof checkSupport === "boolean" &&
+                (
+                    typeof key === "string" &&
+                    this.regValidKey.test(key)
+                )
+            ) {
                 /**
-                 * Initialise temporary store result array
-                 * @type {string[]}
+                 * If that store is supported
                  */
-                let localArrResults: Array<string> = [];
-                /**
-                 * Iterate through all supported stores
-                 */
-                for (let store of this.stores) {
-                    let value = store.getItem(false, key);
+                if (!checkSupport || this.isSupported()) {
                     /**
-                     * If store has this value
+                     * Initialise temporary store result array
+                     * @type {string[]}
                      */
-                    if (value) {
+                    let localArrResults: Array<string> = [];
+                    /**
+                     * Iterate through all supported stores
+                     */
+                    for (let store of this.stores) {
+                        let value = store.getItem(false, key);
                         /**
-                         * Write store operation result to result array
+                         * If store has this value
                          */
-                        localArrResults.push(value);
+                        if (value) {
+                            /**
+                             * Write store operation result to result array
+                             */
+                            localArrResults.push(value);
+                        }
                     }
-                }
-                /**
-                 * Initialise store result array
-                 * @type {Object}
-                 */
-                let arResults: Object = {};
-                let numMax = 0;
-                /**
-                 * Looking for the most frequently mentioned result
-                 */
-                for (let i of localArrResults) {
-                    if (!arResults[i]) {
-                        arResults[i] = 0;
+                    /**
+                     * Initialise store result array
+                     * @type {Object}
+                     */
+                    let arResults: Object = {};
+                    let numMax = 0;
+                    /**
+                     * Looking for the most frequently mentioned result
+                     */
+                    for (let i of localArrResults) {
+                        if (!arResults[i]) {
+                            arResults[i] = 0;
+                        }
+                        arResults[i]++;
+                        if (arResults[i] > numMax) {
+                            numMax = arResults[i];
+                            booResult = i;
+                        }
                     }
-                    arResults[i]++;
-                    if (arResults[i] > numMax) {
-                        numMax = arResults[i];
-                        booResult = i;
-                    }
+                } else {
+                    /**
+                     * If stores does not supported, value can be set
+                     * @type {boolean}
+                     */
+                    booResult = false;
                 }
             } else {
                 /**
-                 * If stores does not supported, value can be set
-                 * @type {boolean}
+                 * If input data is not valid
                  */
                 booResult = false;
             }
@@ -275,7 +320,8 @@ export default class EverCookie implements IStorage {
      * @param key {string}
      * @returns {boolean}
      */
-    public removeItem(checkSupport: boolean, key: string) {
+    public removeItem(checkSupport: boolean = true,
+                      key: string) {
         /**
          * Set result flag as true
          * @type {boolean}
@@ -288,32 +334,48 @@ export default class EverCookie implements IStorage {
         this.stopRefresh = true;
         try {
             /**
-             * If that store is supported
+             * Validate input data
              */
-            if (!checkSupport || this.isSupported()) {
+            if (
+                typeof checkSupport === "boolean" &&
+                (
+                    typeof key === "string" &&
+                    this.regValidKey.test(key)
+                )
+            ) {
                 /**
-                 * Initialise store result counter
-                 * @type {number}
+                 * If that store is supported
                  */
-                let arResult: number = 0;
-                /**
-                 * Iterate through all supported stores
-                 */
-                for (let store of this.stores) {
+                if (!checkSupport || this.isSupported()) {
                     /**
-                     * If store supported (Not required, the stores is checked during initialization)
+                     * Initialise store result counter
+                     * @type {number}
                      */
-                    arResult += 1 * store.removeItem(false, key);
+                    let arResult: number = 0;
+                    /**
+                     * Iterate through all supported stores
+                     */
+                    for (let store of this.stores) {
+                        /**
+                         * If store supported (Not required, the stores is checked during initialization)
+                         */
+                        arResult += 1 * store.removeItem(false, key);
+                    }
+                    /**
+                     * If removed count equal to stores count
+                     * @type {boolean}
+                     */
+                    booResult = (arResult === this.stores.length);
+                } else {
+                    /**
+                     * If stores does not supported, value can be set
+                     * @type {boolean}
+                     */
+                    booResult = false;
                 }
-                /**
-                 * If removed count equal to stores count
-                 * @type {boolean}
-                 */
-                booResult = (arResult === this.stores.length);
             } else {
                 /**
-                 * If stores does not supported, value can be set
-                 * @type {boolean}
+                 * If input data is not valid
                  */
                 booResult = false;
             }
@@ -340,7 +402,7 @@ export default class EverCookie implements IStorage {
      * @param checkSupport {boolean}
      * @returns {string[]}
      */
-    public getKeys(checkSupport: boolean) {
+    public getKeys(checkSupport: boolean = true) {
         /**
          * Set result flag as true
          * @type {Object}
@@ -353,24 +415,36 @@ export default class EverCookie implements IStorage {
         this.stopRefresh = true;
         try {
             /**
-             * If that store is supported
+             * Validate input data
              */
-            if (!checkSupport || this.isSupported()) {
+            if (
+                typeof checkSupport === "boolean"
+            ) {
                 /**
-                 * Iterate through all supported stores
+                 * If that store is supported
                  */
-                for (let store of this.stores) {
-                    let value: Array<string> = store.getKeys(false);
-                    if (value.length > 0) {
-                        for (let i of value) {
-                            booResult[i] = true;
+                if (!checkSupport || this.isSupported()) {
+                    /**
+                     * Iterate through all supported stores
+                     */
+                    for (let store of this.stores) {
+                        let value: Array<string> = store.getKeys(false);
+                        if (value.length > 0) {
+                            for (let i of value) {
+                                booResult[i] = true;
+                            }
                         }
                     }
+                } else {
+                    /**
+                     * If stores does not supported, value can be set
+                     * @type {Object}
+                     */
+                    booResult = {};
                 }
             } else {
                 /**
-                 * If stores does not supported, value can be set
-                 * @type {Object}
+                 * If input data is not valid
                  */
                 booResult = {};
             }
@@ -397,7 +471,7 @@ export default class EverCookie implements IStorage {
      * @param checkSupport {boolean}
      * @returns {boolean}
      */
-    public clear(checkSupport: boolean): boolean {
+    public clear(checkSupport: boolean = true): boolean {
         /**
          * Set result flag as true
          * @type {boolean}
@@ -410,29 +484,41 @@ export default class EverCookie implements IStorage {
         this.stopRefresh = true;
         try {
             /**
-             * If that store is supported
+             * Validate input data
              */
-            if (!checkSupport || this.isSupported()) {
+            if (
+                typeof checkSupport === "boolean"
+            ) {
                 /**
-                 * Initialise store result counter
-                 * @type {number}
+                 * If that store is supported
                  */
-                let arResult: number = 0;
-                /**
-                 * Iterate through all supported stores
-                 */
-                for (let store of this.stores) {
-                    arResult += 1 * store.clear(false);
+                if (!checkSupport || this.isSupported()) {
+                    /**
+                     * Initialise store result counter
+                     * @type {number}
+                     */
+                    let arResult: number = 0;
+                    /**
+                     * Iterate through all supported stores
+                     */
+                    for (let store of this.stores) {
+                        arResult += 1 * store.clear(false);
+                    }
+                    /**
+                     * If removed count equal to stores count
+                     * @type {boolean}
+                     */
+                    booResult = (arResult === this.stores.length);
+                } else {
+                    /**
+                     * If stores does not supported, value can be set
+                     * @type {boolean}
+                     */
+                    booResult = false;
                 }
-                /**
-                 * If removed count equal to stores count
-                 * @type {boolean}
-                 */
-                booResult = (arResult === this.stores.length);
             } else {
                 /**
-                 * If stores does not supported, value can be set
-                 * @type {boolean}
+                 * If input data is not valid
                  */
                 booResult = false;
             }

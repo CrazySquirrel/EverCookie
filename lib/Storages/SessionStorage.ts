@@ -16,6 +16,9 @@ import IStorage from "../../interfaces/IStorage";
  * The SessionStorage
  */
 export default class SessionStorage implements IStorage {
+
+    public regValidKey = new RegExp("([a-zA-Z0-9_-]{0,})", "i");
+
     /**
      * The hash needs for splitting scopes storage
      */
@@ -44,29 +47,51 @@ export default class SessionStorage implements IStorage {
      * @param value {string}
      * @return {boolean}
      */
-    public setItem(checkSupport: boolean, key: string, value: string): boolean {
+    public setItem(checkSupport: boolean = true,
+                   key: string,
+                   value: string): boolean {
         try {
             /**
-             * If that store is supported
+             * Validate input data
              */
-            if (!checkSupport || this.isSupported()) {
+            if (
+                typeof checkSupport === "boolean" &&
+                (
+                    typeof key === "string" &&
+                    this.regValidKey.test(key)
+                ) &&
+                (
+                    typeof value === "string" &&
+                    (value === "" || this.regValidKey.test(value))
+                )
+            ) {
                 /**
-                 * The hash needs for splitting scopes storage
-                 * @type {string}
+                 * If that store is supported
                  */
-                let localKey: string = this.hash + "_" + key;
-                /**
-                 * Set value
-                 * @type {string}
-                 */
-                window.sessionStorage.setItem(localKey, value);
-                /**
-                 * If all ok return true
-                 */
-                return this.getItem(checkSupport, key) === value;
+                if (!checkSupport || this.isSupported()) {
+                    /**
+                     * The hash needs for splitting scopes storage
+                     * @type {string}
+                     */
+                    let localKey: string = this.hash + "_" + key;
+                    /**
+                     * Set value
+                     * @type {string}
+                     */
+                    window.sessionStorage.setItem(localKey, value);
+                    /**
+                     * If all ok return true
+                     */
+                    return this.getItem(checkSupport, key) === value;
+                } else {
+                    /**
+                     * If cookie does not supported return false
+                     */
+                    return false;
+                }
             } else {
                 /**
-                 * If cookie does not supported return false
+                 * If input data is not valid
                  */
                 return false;
             }
@@ -84,27 +109,44 @@ export default class SessionStorage implements IStorage {
      * @param key {string}
      * @returns {string|boolean}
      */
-    public getItem(checkSupport: boolean, key: string): string|boolean {
+    public getItem(checkSupport: boolean = true,
+                   key: string): string|boolean {
         try {
             /**
-             * If that store is supported
+             * Validate input data
              */
-            if (!checkSupport || this.isSupported()) {
+            if (
+                typeof checkSupport === "boolean" &&
+                (
+                    typeof key === "string" &&
+                    this.regValidKey.test(key)
+                )
+            ) {
                 /**
-                 * The hash needs for splitting scopes storage
-                 * @type {string}
+                 * If that store is supported
                  */
-                let localKey: string = this.hash + "_" + key;
-                /**
-                 * Get value
-                 */
-                let value: string = window.sessionStorage.getItem(localKey);
-                /**
-                 * If value exist, return it
-                 */
-                if (value) {
-                    return value;
+                if (!checkSupport || this.isSupported()) {
+                    /**
+                     * The hash needs for splitting scopes storage
+                     * @type {string}
+                     */
+                    let localKey: string = this.hash + "_" + key;
+                    /**
+                     * Get value
+                     */
+                    let value: string = window.sessionStorage.getItem(localKey);
+                    /**
+                     * If value exist, return it
+                     */
+                    if (value) {
+                        return value;
+                    } else {
+                        return false;
+                    }
                 } else {
+                    /**
+                     * If cookie does not supported return false
+                     */
                     return false;
                 }
             } else {
@@ -127,29 +169,46 @@ export default class SessionStorage implements IStorage {
      * @param key {string}
      * @returns {boolean}
      */
-    public removeItem(checkSupport: boolean, key: string): boolean {
+    public removeItem(checkSupport: boolean = true,
+                      key: string): boolean {
         try {
             /**
-             * If that store is supported
+             * Validate input data
              */
-            if (!checkSupport || this.isSupported()) {
+            if (
+                typeof checkSupport === "boolean" &&
+                (
+                    typeof key === "string" &&
+                    this.regValidKey.test(key)
+                )
+            ) {
                 /**
-                 * The hash needs for splitting scopes storage
-                 * @type {string}
+                 * If that store is supported
                  */
-                let localKey: string = this.hash + "_" + key;
-                /**
-                 * Clean value and remove
-                 * @type {boolean}
-                 */
-                window.sessionStorage.removeItem(localKey);
-                /**
-                 * If all ok return true
-                 */
-                return (this.getItem(checkSupport, key) === false);
+                if (!checkSupport || this.isSupported()) {
+                    /**
+                     * The hash needs for splitting scopes storage
+                     * @type {string}
+                     */
+                    let localKey: string = this.hash + "_" + key;
+                    /**
+                     * Clean value and remove
+                     * @type {boolean}
+                     */
+                    window.sessionStorage.removeItem(localKey);
+                    /**
+                     * If all ok return true
+                     */
+                    return (this.getItem(checkSupport, key) === false);
+                } else {
+                    /**
+                     * If cookie does not supported return false
+                     */
+                    return false;
+                }
             } else {
                 /**
-                 * If cookie does not supported return false
+                 * If input data is not valid
                  */
                 return false;
             }
@@ -166,32 +225,44 @@ export default class SessionStorage implements IStorage {
      * @param checkSupport {boolean}
      * @returns {string[]}
      */
-    public getKeys(checkSupport: boolean): Array<string> {
+    public getKeys(checkSupport: boolean = true): Array<string> {
         try {
             /**
-             * If that store is supported
+             * Validate input data
              */
-            if (!checkSupport || this.isSupported()) {
+            if (
+                typeof checkSupport === "boolean"
+            ) {
                 /**
-                 * The array of available keys
-                 * @type {Array}
+                 * If that store is supported
                  */
-                let arrKeys: Array<string> = [];
-                /**
-                 * Iterate through the SessionStorage
-                 */
-                for (let i = 0; i < window.sessionStorage.length; i++) {
-                    if (window.sessionStorage.key(i).indexOf(this.hash) === 0) {
-                        arrKeys.push(window.sessionStorage.key(i).substr(this.hash.length + 1));
+                if (!checkSupport || this.isSupported()) {
+                    /**
+                     * The array of available keys
+                     * @type {Array}
+                     */
+                    let arrKeys: Array<string> = [];
+                    /**
+                     * Iterate through the SessionStorage
+                     */
+                    for (let i = 0; i < window.sessionStorage.length; i++) {
+                        if (window.sessionStorage.key(i).indexOf(this.hash) === 0) {
+                            arrKeys.push(window.sessionStorage.key(i).substr(this.hash.length + 1));
+                        }
                     }
+                    /**
+                     * Return keys
+                     */
+                    return arrKeys;
+                } else {
+                    /**
+                     * If cookie does not supported return false
+                     */
+                    return [];
                 }
-                /**
-                 * Return keys
-                 */
-                return arrKeys;
             } else {
                 /**
-                 * If cookie does not supported return false
+                 * If input data is not valid
                  */
                 return [];
             }
@@ -208,33 +279,45 @@ export default class SessionStorage implements IStorage {
      * @param checkSupport {boolean}
      * @returns {boolean}
      */
-    public clear(checkSupport: boolean): boolean {
+    public clear(checkSupport: boolean = true): boolean {
         try {
             /**
-             * If that store is supported
+             * Validate input data
              */
-            if (!checkSupport || this.isSupported()) {
-                let arrKeys = this.getKeys(checkSupport);
-                if (arrKeys) {
-                    for (let i of arrKeys) {
-                        this.removeItem(checkSupport, i);
-                    }
-                }
+            if (
+                typeof checkSupport === "boolean"
+            ) {
                 /**
-                 * If all ok return true
+                 * If that store is supported
                  */
-                return (this.getKeys(checkSupport).length === 0);
+                if (!checkSupport || this.isSupported()) {
+                    let arrKeys = this.getKeys(checkSupport);
+                    if (arrKeys) {
+                        for (let i of arrKeys) {
+                            this.removeItem(checkSupport, i);
+                        }
+                    }
+                    /**
+                     * If all ok return true
+                     */
+                    return (this.getKeys(checkSupport).length === 0);
+                } else {
+                    /**
+                     * If cookie does not supported return false
+                     */
+                    return true;
+                }
             } else {
                 /**
-                 * If cookie does not supported return false
+                 * If input data is not valid
                  */
-                return true;
+                return false;
             }
         } catch (e) {
             /**
              * If something goes wrong return false
              */
             return false;
-    }
+        }
     }
 }

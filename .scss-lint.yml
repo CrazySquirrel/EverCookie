@@ -1,0 +1,33 @@
+scss_files: "./src/src/**/*.scss"
+
+exclude: "./node_modules/**"
+
+linters:
+  StringQuotes:
+    enabled: false
+  Comment:
+    enabled: false
+  ImportantRule:
+    enabled: false
+  NestingDepth:
+    enabled: false
+  SelectorFormat:
+    enabled: false
+  SelectorDepth:
+    enabled: false
+  SpaceAroundOperator:
+    enabled: false
+  ColorVariable:
+    enabled: false
+  UrlFormat:
+    enabled: false
+  HexLength:
+    enabled: false
+  IdSelector:
+    enabled: false
+  VendorPrefix:
+    enabled: false
+  NameFormat:
+    enabled: false
+  Shorthand:
+    enabled: false
