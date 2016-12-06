@@ -31,6 +31,7 @@ declare var module: any;
  */
 declare var require: any;
 import AnimationFrame from "AnimationFrame";
+
 /**
  * Import storages
  */
@@ -39,6 +40,7 @@ import DOMStorage from "./Storages/DOMStorage";
 import GlobalStorage from "./Storages/GlobalStorage";
 import LocalStorage from "./Storages/LocalStorage";
 import SessionStorage from "./Storages/SessionStorage";
+
 /**
  * EverCookie storage
  */

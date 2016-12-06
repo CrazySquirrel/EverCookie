@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/6745ac3279f3650a8ce5e8877cca831272fe0a06/lockfile/lockfile.d.ts",
+    "raw": "github:DefinitelyTyped/DefinitelyTyped/lockfile/lockfile.d.ts#6745ac3279f3650a8ce5e8877cca831272fe0a06",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/6745ac3279f3650a8ce5e8877cca831272fe0a06/lockfile/lockfile.d.ts"
+  }
+}

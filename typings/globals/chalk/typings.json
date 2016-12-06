@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/e1182d56ccb192379eade6055d9ba3fb6a0bacc4/chalk/chalk.d.ts",
+    "raw": "github:DefinitelyTyped/DefinitelyTyped/chalk/chalk.d.ts#e1182d56ccb192379eade6055d9ba3fb6a0bacc4",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/e1182d56ccb192379eade6055d9ba3fb6a0bacc4/chalk/chalk.d.ts"
+  }
+}

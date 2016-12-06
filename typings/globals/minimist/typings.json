@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/16c0f2c75a30cace4d673b363bbe7af2fe31cc86/minimist/minimist.d.ts",
+    "raw": "github:DefinitelyTyped/DefinitelyTyped/minimist/minimist.d.ts#16c0f2c75a30cace4d673b363bbe7af2fe31cc86",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/16c0f2c75a30cace4d673b363bbe7af2fe31cc86/minimist/minimist.d.ts"
+  }
+}

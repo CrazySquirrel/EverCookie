@@ -7,9 +7,6 @@
   "paths": {
     "AnimationFrame": [
       "./node_modules/AnimationFrame/lib/AnimationFrame.ts"
-    ],
-    "Utils": [
-      "./node_modules/Utils/lib/Utils.ts"
     ]
   },
   "files": [

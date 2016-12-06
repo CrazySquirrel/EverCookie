@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/5e32785f26f69662a6b2b378bd3d54f062821527/universal-analytics/universal-analytics.d.ts",
+    "raw": "github:DefinitelyTyped/DefinitelyTyped/universal-analytics/universal-analytics.d.ts#5e32785f26f69662a6b2b378bd3d54f062821527",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/5e32785f26f69662a6b2b378bd3d54f062821527/universal-analytics/universal-analytics.d.ts"
+  }
+}
