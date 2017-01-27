@@ -1,0 +1,12 @@
+language: node_js
+node_js: '6'
+install: npm install
+script: npm run production
+deploy:
+  provider: npm
+  email: 'info@crazysquirrel.ru'
+  api_key:
+    secure: kiB6BRD8UyYmSAkd2pAd/qs0gh/Z9hrkyoMzfsi5bZZltox7yh6MRdaJwcOPHRx/4YrnL0f7gBETfs/mB8F63/O/SwxHBvhvI7POfgHsmQFvVhJaTtCHwjeafbeKaQRq9bo2UkSnl9J3bihLb8jm/2QMvqhZdJhhLSce6lTOvcEth/91brJ7AldJ5SPsNx1KHDIQ3w1qsBCsZf2S/33QV40zOBz7h68EhUyRWFITcd9SjIkgpAhfMS+lmfPdtFxuKj9auARqKoPWg/nXvGD/197gR4IqVm3UW4IlNO8oOuuJ0uEMq0QKlZIInNUIOPs6nI9q2m7G0dmu3amKUlP/HNn2KqFDJlc/9AQFPdeqaBybiuLibpbYo5O7R+JGAa0AMoksI1BxAj29o8dQ6/Cw3ggKmdYi9kADT3fFNGo/gcjto6v49ugmO3d+ASsBeFMF1Z1zTFynq/q21MIWuzsEfxbPfFXELZ/169x/kMpsWa33RT1fYkIw+uikqVeg8hwmZUETUh2v8fjkvloCqWSyiGlvhxGZ/epjU1rxcpz7wDYUIDt8EuuDJmhSsgPd4BJ9lJYpOGJ8z+7D4rz5DPd+wlXqtE85Bz88woPKG0Ptva0ryaCb1uzOX45UG0rgAx5gpHjDRKyI7FJxhFiAEDIEPLI8TRlpm4jGtbrvn2ITNvg=
+  on:
+    tags: true
+    branch: master
