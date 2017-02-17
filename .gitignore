@@ -1,6 +1,8 @@
 .idea
-node_modules
 doc
+dist
+lib/*.js
+node_modules
 *.log
 *.xml
 *.DS_Store

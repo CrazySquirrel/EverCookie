@@ -1,5 +1,5 @@
 "use strict";
-declare var require: any;
+declare let require: any;
 require("./index.html");
 
 require("../../spec/EverCookie.spec.ts");

@@ -1,14 +1,19 @@
+
 # EverCookie
+
 [![npm version](https://badge.fury.io/js/EverCookie.svg)](https://github.com/CrazySquirrel/EverCookie)
-[![Github All Releases](https://img.shields.io/github/downloads/CrazySquirrel/EverCookie/total.svg)](https://github.com/CrazySquirrel/EverCookie)
-[![Travis branch](https://img.shields.io/travis/CrazySquirrel/EverCookie/master.svg)](https://github.com/CrazySquirrel/EverCookie)
-[![license](https://img.shields.io/github/license/CrazySquirrel/EverCookie.svg)](https://github.com/CrazySquirrel/EverCookie)
-[![npm version](https://img.shields.io/badge/donate-%E2%99%A5-red.svg)](http://crazysquirrel.ru/support/)
+[![Code Climate](https://codeclimate.com/github/CrazySquirrel/EverCookie/badges/gpa.svg)](https://codeclimate.com/github/CrazySquirrel/EverCookie)
+[![Test Coverage](https://codeclimate.com/github/CrazySquirrel/EverCookie/badges/coverage.svg)](https://codeclimate.com/github/CrazySquirrel/EverCookie/coverage)
+[![Issue Count](https://codeclimate.com/github/CrazySquirrel/EverCookie/badges/issue_count.svg)](https://codeclimate.com/github/CrazySquirrel/EverCookie)
+[![Donate](https://img.shields.io/badge/donate-%E2%99%A5-red.svg)](http://crazysquirrel.ru/support/)
 
 Versatile storage.
 
 ## Build
-The repository contains pre-compiled files, but if you want to add your files and compile, then run the following commands in the repository folder.
+
+The repository contains pre-compiled files, but if you want to add your files and compile,
+then run the following commands in the repository folder.
+
 * npm install
 * npm run production
 

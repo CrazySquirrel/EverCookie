@@ -1,8 +1,8 @@
 "use strict";
-declare var require: any;
+declare let require: any;
 require("./index.html");
 
-let EverCookie = require("../../lib/EverCookie.js");
+let EverCookie = require("../../lib/EverCookie.ts");
 
 let LocalEverCookie = new EverCookie("test");
 
