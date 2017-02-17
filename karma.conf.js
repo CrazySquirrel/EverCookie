@@ -8,6 +8,11 @@ module.exports = function (config) {
     basePath: '',
     frameworks: ['jasmine', 'jasmine-matchers', 'source-map-support'],
     files: [
+      "./spec/Cookie.spec.ts",
+      "./spec/DOMStorage.spec.ts",
+      "./spec/GlobalStorage.spec.ts",
+      "./spec/LocalStorage.spec.ts",
+      "./spec/SessionStorage.spec.ts",
       "./spec/EverCookie.spec.ts"
     ],
     exclude: [],
