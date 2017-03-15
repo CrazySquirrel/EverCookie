@@ -4,10 +4,6 @@
  */
 import IStorage from "../../interfaces/IStorage";
 
-declare let require: any;
-
-const URL = require("url");
-
 /**
  * The document cookies storage
  */
@@ -88,11 +84,11 @@ export default class Cookies implements IStorage {
         /**
          * Validate input data
          */
-        let u = URL.parse("http://" + domain + path);
-
+        let a: any = document.createElement("a");
+        a.href = "http://" + domain + path;
         if (
-            u.hostname === domain ||
-            u.path === path
+            a.hostname === domain ||
+            a.path === path
         ) {
           /**
            * If that store is supported
