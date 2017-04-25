@@ -18,8 +18,18 @@ ratings:
 exclude_paths:
   - typings
   - vendors
+  - node_modules
+  - bin
+  - doc
+  - tmp
+  - .git
+  - .idea
   - spec
   - src
   - dist
+  - interfaces
+  - polyfills
+  - CHANGELOG.md
+  - LICENSE.md
   - "**.js"
   - "**.json"

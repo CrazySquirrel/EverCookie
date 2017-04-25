@@ -11,8 +11,8 @@ Versatile storage.
 
 ## Build
 
-The repository contains pre-compiled files, but if you want to add your files and compile,
-then run the following commands in the repository folder.
+The repository contains pre-compiled files, but if you want to add your
+files and compile, then run the following commands in the repository folder.
 
 * npm install
 * npm run production
