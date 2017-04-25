@@ -1,6 +1,6 @@
 {
   "name": "EverCookie",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "main": "./lib/EverCookie.js",
   "description": "Versatile storage.",
   "keywords": [
