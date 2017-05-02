@@ -20,7 +20,7 @@
   "jsnext:main": "./lib/EverCookie.js",
   "types": "./lib/EverCookie.d.ts",
   "bin": {
-    "AnimationFrame": "./lib/EverCookie.js"
+    "EverCookie": "./lib/EverCookie.js"
   },
   "man": "./README.md",
   "repository": {

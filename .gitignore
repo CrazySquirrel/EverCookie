@@ -4,9 +4,7 @@ dist
 lib/*.js
 node_modules
 *.log
-*.xml
 *.DS_Store
 *.map
-*.log
 *.tmp
 yarn.lock
