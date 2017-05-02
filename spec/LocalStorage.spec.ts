@@ -1,7 +1,5 @@
 "use strict";
 
-declare let beforeEach: any;
-declare let afterEach: any;
 declare let describe: any;
 declare let it: any;
 declare let expect: any;
@@ -13,8 +11,7 @@ let LocalStorage = new LocalStorageClass();
 describe("LocalStorage", () => {
 
   let test = () => {
-    let now = (new Date()).getTime();
-    let paramsValues = [undefined, false, true, 30, "value", "/", "test", location.hostname];
+    let paramsValues: any = [undefined, false, true, 30, "value", "/", "test", location.hostname];
     let dataSet = [];
     for (let x1 of paramsValues) {
       for (let x2 of paramsValues) {
@@ -41,8 +38,8 @@ describe("LocalStorage", () => {
                 )
             );
             dataSet.push({
-              params: params,
-              result: cond
+              result: cond,
+              params,
             });
           }
         }
@@ -121,7 +118,7 @@ describe("LocalStorage", () => {
     "LocalStorage.getItem",
     "LocalStorage.removeItem",
     "LocalStorage.getKeys",
-    "LocalStorage.clear"
+    "LocalStorage.clear",
   ].join("\r\n"), () => {
     let isSupported1 = LocalStorage.isSupported();
 

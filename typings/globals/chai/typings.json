@@ -1,8 +1,0 @@
-{
-  "resolution": "main",
-  "tree": {
-    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/5a8f9e312f3db37b8efc4dcdd1de204f60e67eb1/chai/chai.d.ts",
-    "raw": "github:DefinitelyTyped/DefinitelyTyped/chai/chai.d.ts#5a8f9e312f3db37b8efc4dcdd1de204f60e67eb1",
-    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/5a8f9e312f3db37b8efc4dcdd1de204f60e67eb1/chai/chai.d.ts"
-  }
-}

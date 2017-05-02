@@ -136,15 +136,11 @@ module.exports = {
   externals: {
     "EverCookie": "EverCookie"
   },
-  devtool: (NODE_ENV == "development" ? "inline-source-map" : (NODE_ENV
+  devtool: (NODE_ENV === "development" ? "inline-source-map" : (NODE_ENV
   === "testing" ? "inline-source-map" : "")),
   plugins: arrPlugins,
   resolve: {
-    extensions: ["", ".webpack.js", ".web.js", ".ts", ".tsx", ".js"],
-    alias: {
-      "AnimationFrame": path.join(__dirname, "node_modules")
-      + "/AnimationFrame/lib/AnimationFrame.ts"
-    }
+    extensions: ["", ".webpack.js", ".web.js", ".ts", ".tsx", ".js"]
   },
   resolveLoader: {
     root: path.join(__dirname, "node_modules"),

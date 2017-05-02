@@ -1,15 +1,28 @@
 {
   "name": "EverCookie",
   "version": "1.0.17",
-  "main": "./lib/EverCookie.js",
   "description": "Versatile storage.",
   "keywords": [
     "TypeScript",
     "Storage",
     "EverCookie"
   ],
-  "author": "Sergey Yastrebov <info@crazysquirrel.ru>",
+  "homepage": "https://github.com/CrazySquirrel/EverCookie",
+  "bugs": {
+    "url": "https://github.com/CrazySquirrel/EverCookie/issues",
+    "email": "info@crazysquirrel.ru"
+  },
   "license": "MIT",
+  "author": "Sergey Yastrebov <info@crazysquirrel.ru>",
+  "main": "./lib/EverCookie.js",
+  "module": "./lib/EverCookie.js",
+  "browser": "./lib/EverCookie.js",
+  "jsnext:main": "./lib/EverCookie.js",
+  "types": "./lib/EverCookie.d.ts",
+  "bin": {
+    "AnimationFrame": "./lib/EverCookie.js"
+  },
+  "man": "./README.md",
   "repository": {
     "type": "git",
     "url": "git@github.com:CrazySquirrel/EverCookie.git"
@@ -38,9 +51,12 @@
     }
   },
   "dependencies": {
-    "AnimationFrame": "^1.0.x"
+    "AnimationFrame": "^1.x.x"
   },
   "devDependencies": {
+    "@types/jasmine": "^2.5.47",
+    "@types/jasmine-expect": "^3.6.1",
+    "@types/jasmine-matchers": "^0.2.30",
     "babel-core": "^6.14.0",
     "babel-loader": "^6.2.5",
     "babel-plugin-istanbul": "^3.0.0",

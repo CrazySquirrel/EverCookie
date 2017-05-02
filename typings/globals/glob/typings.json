@@ -1,8 +1,0 @@
-{
-  "resolution": "main",
-  "tree": {
-    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/7573f56bec703a373ab307eeeb23aa0e0b4ee10f/glob/glob.d.ts",
-    "raw": "github:DefinitelyTyped/DefinitelyTyped/glob/glob.d.ts#7573f56bec703a373ab307eeeb23aa0e0b4ee10f",
-    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/7573f56bec703a373ab307eeeb23aa0e0b4ee10f/glob/glob.d.ts"
-  }
-}

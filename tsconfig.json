@@ -2,12 +2,8 @@
   "compilerOptions": {
     "target": "es6",
     "sourceMap": false,
-    "inlineSourceMap": true
-  },
-  "paths": {
-    "AnimationFrame": [
-      "./node_modules/AnimationFrame/lib/AnimationFrame.ts"
-    ]
+    "inlineSourceMap": true,
+    "declaration": true
   },
   "files": [
     "./lib/EverCookie.ts"

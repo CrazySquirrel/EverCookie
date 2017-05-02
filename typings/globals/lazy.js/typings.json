@@ -1,8 +1,0 @@
-{
-  "resolution": "main",
-  "tree": {
-    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/4f75bef422dbb8564cc52a05d3d37665a638175f/lazy.js/lazy.js.d.ts",
-    "raw": "github:DefinitelyTyped/DefinitelyTyped/lazy.js/lazy.js.d.ts#4f75bef422dbb8564cc52a05d3d37665a638175f",
-    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/4f75bef422dbb8564cc52a05d3d37665a638175f/lazy.js/lazy.js.d.ts"
-  }
-}

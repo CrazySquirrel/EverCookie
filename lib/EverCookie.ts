@@ -30,7 +30,7 @@ declare let module: any;
  * Import Animation frame
  */
 declare let require: any;
-import AnimationFrame from "AnimationFrame";
+import AnimationFrame from "AnimationFrame/lib/AnimationFrame";
 
 /**
  * Import storages
