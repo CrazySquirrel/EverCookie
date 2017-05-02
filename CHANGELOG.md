@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.0.18"></a>
+## [1.0.18](https://github.com/CrazySquirrel/EverCookie/compare/v1.0.17...v1.0.18) (2017-05-02)
+
+
+
 <a name="1.0.17"></a>
 ## [1.0.17](https://github.com/CrazySquirrel/EverCookie/compare/v1.0.16...v1.0.17) (2017-04-26)
 
