@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "es2015",
+    "lib": ["es2016", "dom"],
     "sourceMap": false,
     "inlineSourceMap": true,
     "declaration": true

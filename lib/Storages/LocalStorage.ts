@@ -73,7 +73,7 @@ export default class LocalStorage implements IStorage {
            * The hash needs for splitting scopes storage
            * @type {string}
            */
-          let localKey: string = this.hash + "_" + key;
+          const localKey: string = this.hash + "_" + key;
           /**
            * Set value
            * @type {string}
@@ -130,11 +130,11 @@ export default class LocalStorage implements IStorage {
            * The hash needs for splitting scopes storage
            * @type {string}
            */
-          let localKey: string = this.hash + "_" + key;
+          const localKey: string = this.hash + "_" + key;
           /**
            * Get value
            */
-          let value: string = window.localStorage.getItem(localKey);
+          const value: string = window.localStorage.getItem(localKey);
           /**
            * If value exist, return it
            */
@@ -190,7 +190,7 @@ export default class LocalStorage implements IStorage {
            * The hash needs for splitting scopes storage
            * @type {string}
            */
-          let localKey: string = this.hash + "_" + key;
+          const localKey: string = this.hash + "_" + key;
           /**
            * Clean value and remove
            * @type {boolean}
@@ -225,7 +225,7 @@ export default class LocalStorage implements IStorage {
    * @param checkSupport {boolean}
    * @returns {string[]}
    */
-  public getKeys(checkSupport: boolean = true): Array<string> {
+  public getKeys(checkSupport: boolean = true): string[] {
     try {
       /**
        * Validate input data
@@ -241,7 +241,7 @@ export default class LocalStorage implements IStorage {
            * The array of available keys
            * @type {Array}
            */
-          let arrKeys: Array<string> = [];
+          const arrKeys: string[] = [];
           /**
            * Iterate through the localStorage
            */
@@ -291,9 +291,10 @@ export default class LocalStorage implements IStorage {
          * If that store is supported
          */
         if (!checkSupport || this.isSupported()) {
-          let arrKeys = this.getKeys(checkSupport);
+          const arrKeys = this.getKeys(checkSupport);
           if (arrKeys) {
-            for (let i of arrKeys) {
+            for (let j = 0; j < arrKeys.length; j++) {
+              const i = arrKeys[j];
               this.removeItem(checkSupport, i);
             }
           }

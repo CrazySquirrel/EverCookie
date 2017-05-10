@@ -48,7 +48,7 @@ export default class LocalStorage implements IStorage {
      * @param checkSupport {boolean}
      * @returns {string[]}
      */
-    getKeys(checkSupport?: boolean): Array<string>;
+    getKeys(checkSupport?: boolean): string[];
     /**
      * The method cleans the storage and return true if it is empty
      * @param checkSupport {boolean}

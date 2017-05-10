@@ -1,5 +1,4 @@
 "use strict";
-declare let require: any;
 require("./index.html");
 
 import EverCookie from "../../lib/EverCookie.ts";

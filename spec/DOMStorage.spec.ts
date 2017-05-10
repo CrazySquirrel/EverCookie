@@ -6,24 +6,30 @@ declare let expect: any;
 declare let require: any;
 
 import DOMStorageClass from "../lib/Storages/DOMStorage";
-let DOMStorage = new DOMStorageClass();
+const DOMStorage = new DOMStorageClass();
 
 describe("DOMStorage", () => {
 
-  let test = () => {
-    let paramsValues: any = [undefined, false, true, 30, "value", "/", "test", location.hostname];
-    let dataSet = [];
-    for (let x1 of paramsValues) {
-      for (let x2 of paramsValues) {
-        for (let x3 of paramsValues) {
+  const test = () => {
+    const paramsValues: any = [undefined, false, true, 30, "value", "/", "test", location.hostname];
+    const dataSet = [];
+
+    for (let i1 = 0; i1 < paramsValues.length; i1++) {
+      const x1 = paramsValues[i1];
+
+      for (let i2 = 0; i2 < paramsValues.length; i2++) {
+        const x2 = paramsValues[i2];
+
+        for (let i3 = 0; i3 < paramsValues.length; i3++) {
+          const x3 = paramsValues[i3];
 
           if (
               [x2, x3].indexOf(x1) === -1 &&
               [x1, x3].indexOf(x2) === -1 &&
               [x1, x2].indexOf(x3) === -1
           ) {
-            let params = [x1, x2, x3];
-            let cond = (
+            const params = [x1, x2, x3];
+            const cond = (
                 (
                     typeof x1 === "boolean" ||
                     x1 === undefined
@@ -45,7 +51,8 @@ describe("DOMStorage", () => {
         }
       }
     }
-    for (let set of dataSet) {
+    for (let j = 0; j < dataSet.length; j++) {
+      const set = dataSet[j];
       /**
        * Set data
        */
@@ -63,7 +70,7 @@ describe("DOMStorage", () => {
         /**
          * Get data
          */
-        let getItem1 = DOMStorage.getItem.apply(DOMStorage, set.params.slice(0, 2));
+        const getItem1 = DOMStorage.getItem.apply(DOMStorage, set.params.slice(0, 2));
 
         expect(typeof(getItem1)).toEqual("string");
         expect(getItem1).toEqual(set.params[2]);
@@ -80,7 +87,7 @@ describe("DOMStorage", () => {
         /**
          * Remove item
          */
-        let removeItem1 = DOMStorage.removeItem.apply(DOMStorage, set.params.slice(0, 2));
+        const removeItem1 = DOMStorage.removeItem.apply(DOMStorage, set.params.slice(0, 2));
 
         getKeys1 = DOMStorage.getKeys.apply(DOMStorage, set.params.slice(0, 1));
 
@@ -95,9 +102,9 @@ describe("DOMStorage", () => {
         setItem1 = DOMStorage.setItem.apply(DOMStorage, set.params);
         getKeys1 = DOMStorage.getKeys.apply(DOMStorage, set.params.slice(0, 1));
 
-        let clear1 = DOMStorage.clear.apply(DOMStorage, set.params.slice(0, 1));
+        const clear1 = DOMStorage.clear.apply(DOMStorage, set.params.slice(0, 1));
 
-        let getKeys2 = DOMStorage.getKeys.apply(DOMStorage, set.params.slice(0, 1));
+        const getKeys2 = DOMStorage.getKeys.apply(DOMStorage, set.params.slice(0, 1));
 
         expect(typeof(clear1)).toEqual("boolean");
 
@@ -120,7 +127,7 @@ describe("DOMStorage", () => {
     "DOMStorage.getKeys",
     "DOMStorage.clear",
   ].join("\r\n"), () => {
-    let isSupported1 = DOMStorage.isSupported();
+    const isSupported1 = DOMStorage.isSupported();
 
     expect(typeof(isSupported1)).toEqual("boolean");
 

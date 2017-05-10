@@ -6,24 +6,30 @@ declare let expect: any;
 declare let require: any;
 
 import GlobalStorageClass from "../lib/Storages/GlobalStorage";
-let GlobalStorage = new GlobalStorageClass();
+const GlobalStorage = new GlobalStorageClass();
 
 describe("GlobalStorage", () => {
 
-  let test = () => {
-    let paramsValues: any = [undefined, false, true, 30, "value", "/", "test", location.hostname];
-    let dataSet = [];
-    for (let x1 of paramsValues) {
-      for (let x2 of paramsValues) {
-        for (let x3 of paramsValues) {
+  const test = () => {
+    const paramsValues: any = [undefined, false, true, 30, "value", "/", "test", location.hostname];
+    const dataSet = [];
+
+    for (let i1 = 0; i1 < paramsValues.length; i1++) {
+      const x1 = paramsValues[i1];
+
+      for (let i2 = 0; i2 < paramsValues.length; i2++) {
+        const x2 = paramsValues[i2];
+
+        for (let i3 = 0; i3 < paramsValues.length; i3++) {
+          const x3 = paramsValues[i3];
 
           if (
               [x2, x3].indexOf(x1) === -1 &&
               [x1, x3].indexOf(x2) === -1 &&
               [x1, x2].indexOf(x3) === -1
           ) {
-            let params = [x1, x2, x3];
-            let cond = (
+            const params = [x1, x2, x3];
+            const cond = (
                 (
                     typeof x1 === "boolean" ||
                     x1 === undefined
@@ -45,7 +51,9 @@ describe("GlobalStorage", () => {
         }
       }
     }
-    for (let set of dataSet) {
+
+    for (let j = 0; j < dataSet.length; j++) {
+      const set = dataSet[j];
       /**
        * Set data
        */
@@ -63,7 +71,7 @@ describe("GlobalStorage", () => {
         /**
          * Get data
          */
-        let getItem1 = GlobalStorage.getItem.apply(GlobalStorage, set.params.slice(0, 2));
+        const getItem1 = GlobalStorage.getItem.apply(GlobalStorage, set.params.slice(0, 2));
 
         expect(typeof(getItem1)).toEqual("string");
         expect(getItem1).toEqual(set.params[2]);
@@ -80,7 +88,7 @@ describe("GlobalStorage", () => {
         /**
          * Remove item
          */
-        let removeItem1 = GlobalStorage.removeItem.apply(GlobalStorage, set.params.slice(0, 2));
+        const removeItem1 = GlobalStorage.removeItem.apply(GlobalStorage, set.params.slice(0, 2));
 
         getKeys1 = GlobalStorage.getKeys.apply(GlobalStorage, set.params.slice(0, 1));
 
@@ -95,9 +103,9 @@ describe("GlobalStorage", () => {
         setItem1 = GlobalStorage.setItem.apply(GlobalStorage, set.params);
         getKeys1 = GlobalStorage.getKeys.apply(GlobalStorage, set.params.slice(0, 1));
 
-        let clear1 = GlobalStorage.clear.apply(GlobalStorage, set.params.slice(0, 1));
+        const clear1 = GlobalStorage.clear.apply(GlobalStorage, set.params.slice(0, 1));
 
-        let getKeys2 = GlobalStorage.getKeys.apply(GlobalStorage, set.params.slice(0, 1));
+        const getKeys2 = GlobalStorage.getKeys.apply(GlobalStorage, set.params.slice(0, 1));
 
         expect(typeof(clear1)).toEqual("boolean");
 
@@ -120,7 +128,7 @@ describe("GlobalStorage", () => {
     "GlobalStorage.getKeys",
     "GlobalStorage.clear",
   ].join("\r\n"), () => {
-    let isSupported1 = GlobalStorage.isSupported();
+    const isSupported1 = GlobalStorage.isSupported();
 
     expect(typeof(isSupported1)).toEqual("boolean");
 

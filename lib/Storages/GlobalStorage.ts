@@ -27,7 +27,7 @@ export default class GlobalStorage implements IStorage {
   /**
    * Link to global storage
    */
-  private globalStorage: Object;
+  private globalStorage: any;
 
   /**
    * The constructor should accept a hash to separate the scopes of storage
@@ -86,7 +86,7 @@ export default class GlobalStorage implements IStorage {
            * The hash needs for splitting scopes storage
            * @type {string}
            */
-          let localKey: string = this.hash + "_" + key;
+          const localKey: string = this.hash + "_" + key;
           /**
            * Set value
            * @type {string}
@@ -143,11 +143,11 @@ export default class GlobalStorage implements IStorage {
            * The hash needs for splitting scopes storage
            * @type {string}
            */
-          let localKey: string = this.hash + "_" + key;
+          const localKey: string = this.hash + "_" + key;
           /**
            * Get value
            */
-          let value: string = this.globalStorage[localKey];
+          const value: string = this.globalStorage[localKey];
           /**
            * If value exist, return it
            */
@@ -203,7 +203,7 @@ export default class GlobalStorage implements IStorage {
            * The hash needs for splitting scopes storage
            * @type {string}
            */
-          let localKey: string = this.hash + "_" + key;
+          const localKey: string = this.hash + "_" + key;
           /**
            * Clean value and remove
            * @type {boolean}
@@ -239,7 +239,7 @@ export default class GlobalStorage implements IStorage {
    * @param checkSupport {boolean}
    * @returns {string[]}
    */
-  public getKeys(checkSupport: boolean = true): Array<string> {
+  public getKeys(checkSupport: boolean = true): string[] {
     try {
       /**
        * Validate input data
@@ -255,16 +255,17 @@ export default class GlobalStorage implements IStorage {
            * The array of available keys
            * @type {Array}
            */
-          let arrKeys: Array<string> = [];
+          const arrKeys: string[] = [];
           /**
            * Get the array from document cookie split by ;
            * @type {string[]}
            */
-          let localArrKeys: Array<string> = Object.keys(this.globalStorage);
+          const localArrKeys: string[] = Object.keys(this.globalStorage);
           /**
            * Iterate through the globalStorage
            */
-          for (let key of localArrKeys) {
+          for (let j = 0; j < localArrKeys.length; j++) {
+            const key = localArrKeys[j];
             /**
              * If the key contains hash add it to the list
              */
@@ -313,9 +314,10 @@ export default class GlobalStorage implements IStorage {
          * If that store is supported
          */
         if (!checkSupport || this.isSupported()) {
-          let arrKeys = this.getKeys(checkSupport);
+          const arrKeys = this.getKeys(checkSupport);
           if (arrKeys) {
-            for (let i of arrKeys) {
+            for (let j = 0; j < arrKeys.length; j++) {
+              const i = arrKeys[j];
               this.removeItem(checkSupport, i);
             }
           }

@@ -2,13 +2,11 @@
 
 const NODE_ENV = process.env.NODE_ENV || "development";
 
-const CompressionPlugin = require("compression-webpack-plugin");
+const MODE = NODE_ENV.split(":")[0];
 
 const StringReplacePlugin = require("string-replace-webpack-plugin");
 
 const WebpackNotifierPlugin = require("webpack-notifier");
-
-const BrowserSyncPlugin = require("browser-sync-webpack-plugin");
 
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 
@@ -20,28 +18,11 @@ const fs = require("fs");
 
 const crypto = require("crypto");
 
-const compress = require("compression");
-
 const packagenpm = require("./package.json");
 
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 let extractHTML = new ExtractTextPlugin("[name].html");
-
-let objBuildList = {};
-
-/**
- * Templates
- */
-objBuildList = Object.assign(
-    objBuildList,
-    {
-      "./lib/EverCookie": ["./lib/EverCookie.ts"],
-      "./dist/simple-typescript-example/index": ["./src/simple-typescript-example/index.ts"],
-      "./dist/simple-javascript-example/index": ["./src/simple-javascript-example/index.ts"],
-      "./dist/test-scope/index": ["./src/test-scope/index.ts"]
-    }
-);
 
 /**
  * Plugins list
@@ -52,27 +33,9 @@ let arrPlugins = [
   extractHTML
 ];
 /**
- * Add BrowserSync for development mode
- */
-if (NODE_ENV === "development" || NODE_ENV === "production") {
-  arrPlugins.push(
-      new BrowserSyncPlugin({
-        host: "localhost",
-        port: 8080,
-        server: {
-          baseDir: ["./"],
-          middleware: function (req, res, next) {
-            var gzip = compress();
-            gzip(req, res, next);
-          }
-        }
-      })
-  );
-}
-/**
  * Add uglifyer for production mode
  */
-if (NODE_ENV === "production" || NODE_ENV === "testing") {
+if (MODE === "production" || MODE === "testing") {
   arrPlugins.push(
       new webpack.optimize.UglifyJsPlugin({
         minimize: true,
@@ -91,9 +54,7 @@ if (NODE_ENV === "production" || NODE_ENV === "testing") {
  */
 arrPlugins.push(
     new webpack.DefinePlugin({
-      "process.env": {
-        NODE_ENV: JSON.stringify(NODE_ENV)
-      }
+      "process.env.NODE_ENV": JSON.stringify(MODE)
     })
 );
 
@@ -103,32 +64,33 @@ arrPlugins.push(
     ])
 );
 
-let replacements = [
-  {
-    pattern: /#HASH#/gi,
-    replacement: () => {
-      return crypto.createHash("md5").update(
-          (new Date()).getTime().toString()).digest("hex");
+let replacements = StringReplacePlugin.replace({
+  replacements: [
+    {
+      pattern: /#HASH#/gi,
+      replacement: () => {
+        return crypto.createHash("md5").update(
+            (new Date()).getTime().toString()).digest("hex");
+      }
+    },
+    {
+      pattern: /#PACKAGE_NAME#/gi,
+      replacement: () => {
+        return packagenpm.name;
+      }
+    },
+    {
+      pattern: /#PACKAGE_VERSION#/gi,
+      replacement: () => {
+        return packagenpm.version;
+      }
     }
-  },
-  {
-    pattern: /#PACKAGE_NAME#/gi,
-    replacement: () => {
-      return packagenpm.name;
-    }
-  },
-  {
-    pattern: /#PACKAGE_VERSION#/gi,
-    replacement: () => {
-      return packagenpm.version;
-    }
-  }
-];
+  ]
+});
 
 module.exports = {
-  entry: objBuildList,
   output: {
-    filename: NODE_ENV === "production" ? "[name].js" : "[name].js",
+    filename: MODE === "production" ? "[name].js" : "[name].js",
     library: "EverCookie",
     libraryTarget: "umd",
     umdNamedDefine: true
@@ -136,49 +98,74 @@ module.exports = {
   externals: {
     "EverCookie": "EverCookie"
   },
-  devtool: (NODE_ENV === "development" ? "inline-source-map" : (NODE_ENV
-  === "testing" ? "inline-source-map" : "")),
+  devtool: (
+      MODE === "development" ? "inline-source-map" : (
+          MODE === "testing" ? "inline-source-map" : ""
+      )
+  ),
   plugins: arrPlugins,
   resolve: {
-    extensions: ["", ".webpack.js", ".web.js", ".ts", ".tsx", ".js"]
+    extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".js"]
   },
   resolveLoader: {
-    root: path.join(__dirname, "node_modules"),
-    extensions: ["", ".js", ".ts", ".jsx", ".tsx"]
+    extensions: [".js", ".ts", ".jsx", ".tsx"]
   },
   module: {
     loaders: [
       {
-        test: /lib\/(.*)\.ts(x?)$/,
-        loaders: [
-          StringReplacePlugin.replace({
-            replacements: replacements
-          }),
-          "babel-loader?presets[]=babel-preset-es2015-loose&plugins[]=istanbul",
-          "ts-loader"
+        test: /\.ts(x?)$/,
+        include: [
+          path.resolve(__dirname, "lib")
+        ],
+        use: [
+          {
+            loader: replacements
+          },
+          {
+            loader: "babel-loader",
+            options: {
+              presets: ["es2015"],
+              plugins: ["istanbul"]
+            }
+          },
+          {
+            loader: "ts-loader"
+          }
         ]
       },
       {
-        test: /(spec|src|polyfills)\/(.*)\.ts(x?)$/,
-        loaders: [
-          StringReplacePlugin.replace({
-            replacements: replacements
-          }),
-          "babel-loader?presets[]=babel-preset-es2015-loose",
-          "ts-loader"
+        test: /\.ts(x?)$/,
+        exclude: [
+          path.resolve(__dirname, "lib")
+        ],
+        use: [
+          {
+            loader: replacements
+          },
+          {
+            loader: "babel-loader",
+            options: {
+              presets: ["es2015"]
+            }
+          },
+          {
+            loader: "ts-loader"
+          }
         ]
       },
       {
         test: /\.html/i,
-        loader: extractHTML.extract(["html"])
+        use: extractHTML.extract(["html-loader"])
       },
       {
         test: /\.json$/,
-        loaders: [
-          StringReplacePlugin.replace({
-            replacements: replacements
-          }),
-          "json-loader"
+        use: [
+          {
+            loader: replacements
+          },
+          {
+            loader: "json-loader"
+          }
         ]
       }
     ]

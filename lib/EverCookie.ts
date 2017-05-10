@@ -56,7 +56,7 @@ export default class EverCookie implements IStorage {
   /**
    * Different types of stores
    */
-  private stores: Array<any>;
+  private stores: any[];
 
   /**
    * Self refresh flag
@@ -167,11 +167,12 @@ export default class EverCookie implements IStorage {
            * Initialise store result array
            * @type {Array}
            */
-          let arResults: Array<boolean> = [];
+          const arResults: boolean[] = [];
           /**
            * Iterate through all supported stores
            */
-          for (let store of this.stores) {
+          for (let j = 0; j < this.stores.length; j++) {
+            const store = this.stores[j];
             /**
              * Write store operation result to result array
              */
@@ -250,12 +251,13 @@ export default class EverCookie implements IStorage {
            * Initialise temporary store result array
            * @type {string[]}
            */
-          let localArrResults: Array<string> = [];
+          const localArrResults: string[] = [];
           /**
            * Iterate through all supported stores
            */
-          for (let store of this.stores) {
-            let value = store.getItem(false, key);
+          for (let j = 0; j < this.stores.length; j++) {
+            const store = this.stores[j];
+            const value = store.getItem(false, key);
             /**
              * If store has this value
              */
@@ -270,12 +272,13 @@ export default class EverCookie implements IStorage {
            * Initialise store result array
            * @type {Object}
            */
-          let arResults: Object = {};
+          const arResults: any = {};
           let numMax = 0;
           /**
            * Looking for the most frequently mentioned result
            */
-          for (let i of localArrResults) {
+          for (let j = 0; j < localArrResults.length; j++) {
+            const i = localArrResults[j];
             if (!arResults[i]) {
               arResults[i] = 0;
             }
@@ -357,7 +360,8 @@ export default class EverCookie implements IStorage {
           /**
            * Iterate through all supported stores
            */
-          for (let store of this.stores) {
+          for (let j = 0; j < this.stores.length; j++) {
+            const store = this.stores[j];
             /**
              * If store supported (Not required, the stores is checked during initialization)
              */
@@ -409,7 +413,7 @@ export default class EverCookie implements IStorage {
      * Set result flag as true
      * @type {Object}
      */
-    let booResult: Object = {};
+    let booResult: any = {};
     /**
      * Stop self refresh process
      * @type {boolean}
@@ -429,10 +433,12 @@ export default class EverCookie implements IStorage {
           /**
            * Iterate through all supported stores
            */
-          for (let store of this.stores) {
-            let value: Array<string> = store.getKeys(false);
+          for (let j = 0; j < this.stores.length; j++) {
+            const store = this.stores[j];
+            const value: string[] = store.getKeys(false);
             if (value.length > 0) {
-              for (let i of value) {
+              for (let x = 0; x < value.length; x++) {
+                const i = value[x];
                 booResult[i] = true;
               }
             }
@@ -503,7 +509,8 @@ export default class EverCookie implements IStorage {
           /**
            * Iterate through all supported stores
            */
-          for (let store of this.stores) {
+          for (let j = 0; j < this.stores.length; j++) {
+            const store = this.stores[j];
             arResult += 1 * store.clear(false);
           }
           /**
@@ -547,13 +554,15 @@ export default class EverCookie implements IStorage {
    */
   public refresh(): void {
     if (!this.stopRefresh) {
-      let arrKeys: Array<string> = this.getKeys(false);
-      for (let key of arrKeys) {
-        let value = this.getItem(false, key);
+      const arrKeys: string[] = this.getKeys(false);
+      for (let i = 0; i < arrKeys.length; i++) {
+        const key = arrKeys[i];
+        const value = this.getItem(false, key);
         /**
          * Iterate through all supported stores
          */
-        for (let store of this.stores) {
+        for (let j = 0; j < this.stores.length; j++) {
+          const store = this.stores[j];
           if (value !== store.getItem(false, key)) {
             store.setItem(false, key, value.toString());
           }

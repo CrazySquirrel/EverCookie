@@ -2,7 +2,9 @@
 
 const NODE_ENV = process.env.NODE_ENV || "development";
 
-const CompressionPlugin = require("compression-webpack-plugin");
+const MODE = NODE_ENV.split(":")[0];
+
+const MODE_2 = NODE_ENV.split(":")[1];
 
 const StringReplacePlugin = require("string-replace-webpack-plugin");
 
@@ -26,6 +28,10 @@ const packagenpm = require("./package.json");
 
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
+const BundleAnalyzerPlugin = require(
+    "webpack-bundle-analyzer"
+).BundleAnalyzerPlugin;
+
 let extractHTML = new ExtractTextPlugin("[name].html");
 
 let objBuildList = {};
@@ -37,11 +43,24 @@ objBuildList = Object.assign(
     objBuildList,
     {
       "./lib/EverCookie": ["./lib/EverCookie.ts"],
-      "./dist/simple-typescript-example/index": ["./src/simple-typescript-example/index.ts"],
-      "./dist/simple-javascript-example/index": ["./src/simple-javascript-example/index.ts"],
-      "./dist/test-scope/index": ["./src/test-scope/index.ts"]
+      "./lib/Storages/Cookies": ["./lib/Storages/Cookies.ts"],
+      "./lib/Storages/DOMStorage": ["./lib/Storages/DOMStorage.ts"],
+      "./lib/Storages/GlobalStorage": ["./lib/Storages/GlobalStorage.ts"],
+      "./lib/Storages/LocalStorage": ["./lib/Storages/LocalStorage.ts"],
+      "./lib/Storages/SessionStorage": ["./lib/Storages/SessionStorage.ts"]
     }
 );
+
+if (MODE_2 !== "stat") {
+  objBuildList = Object.assign(
+      objBuildList,
+      {
+        "./dist/simple-typescript-example/index": ["./src/simple-typescript-example/index.ts"],
+        "./dist/simple-javascript-example/index": ["./src/simple-javascript-example/index.ts"],
+        "./dist/test-scope/index": ["./src/test-scope/index.ts"]
+      }
+  );
+}
 
 /**
  * Plugins list
@@ -54,7 +73,15 @@ let arrPlugins = [
 /**
  * Add BrowserSync for development mode
  */
-if (NODE_ENV === "development" || NODE_ENV === "production") {
+if (MODE_2 === "stat") {
+  arrPlugins.push(
+      new BundleAnalyzerPlugin()
+  );
+}
+/**
+ * Add BrowserSync for development mode
+ */
+if (MODE_2 === "watch") {
   arrPlugins.push(
       new BrowserSyncPlugin({
         host: "localhost",
@@ -72,7 +99,7 @@ if (NODE_ENV === "development" || NODE_ENV === "production") {
 /**
  * Add uglifyer for production mode
  */
-if (NODE_ENV === "production" || NODE_ENV === "testing") {
+if (MODE === "production" || MODE === "testing") {
   arrPlugins.push(
       new webpack.optimize.UglifyJsPlugin({
         minimize: true,
@@ -91,9 +118,7 @@ if (NODE_ENV === "production" || NODE_ENV === "testing") {
  */
 arrPlugins.push(
     new webpack.DefinePlugin({
-      "process.env": {
-        NODE_ENV: JSON.stringify(NODE_ENV)
-      }
+      "process.env.NODE_ENV": JSON.stringify(MODE)
     })
 );
 
@@ -103,32 +128,34 @@ arrPlugins.push(
     ])
 );
 
-let replacements = [
-  {
-    pattern: /#HASH#/gi,
-    replacement: () => {
-      return crypto.createHash("md5").update(
-          (new Date()).getTime().toString()).digest("hex");
+let replacements = StringReplacePlugin.replace({
+  replacements: [
+    {
+      pattern: /#HASH#/gi,
+      replacement: () => {
+        return crypto.createHash("md5").update(
+            (new Date()).getTime().toString()).digest("hex");
+      }
+    },
+    {
+      pattern: /#PACKAGE_NAME#/gi,
+      replacement: () => {
+        return packagenpm.name;
+      }
+    },
+    {
+      pattern: /#PACKAGE_VERSION#/gi,
+      replacement: () => {
+        return packagenpm.version;
+      }
     }
-  },
-  {
-    pattern: /#PACKAGE_NAME#/gi,
-    replacement: () => {
-      return packagenpm.name;
-    }
-  },
-  {
-    pattern: /#PACKAGE_VERSION#/gi,
-    replacement: () => {
-      return packagenpm.version;
-    }
-  }
-];
+  ]
+});
 
 module.exports = {
   entry: objBuildList,
   output: {
-    filename: NODE_ENV === "production" ? "[name].js" : "[name].js",
+    filename: MODE === "production" ? "[name].js" : "[name].js",
     library: "EverCookie",
     libraryTarget: "umd",
     umdNamedDefine: true
@@ -136,40 +163,44 @@ module.exports = {
   externals: {
     "EverCookie": "EverCookie"
   },
-  devtool: (NODE_ENV === "development" ? "inline-source-map" : (NODE_ENV
-  === "testing" ? "inline-source-map" : "")),
+  devtool: (
+      MODE === "development" ? "inline-source-map" : (
+          MODE === "testing" ? "inline-source-map" : ""
+      )
+  ),
   plugins: arrPlugins,
   resolve: {
-    extensions: ["", ".webpack.js", ".web.js", ".ts", ".tsx", ".js"]
+    extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".js"]
   },
   resolveLoader: {
-    root: path.join(__dirname, "node_modules"),
-    extensions: ["", ".js", ".ts", ".jsx", ".tsx"]
+    extensions: [".js", ".ts", ".jsx", ".tsx"]
   },
   module: {
     loaders: [
       {
         test: /\.ts(x?)$/,
-        loaders: [
-          StringReplacePlugin.replace({
-            replacements: replacements
-          }),
-          "babel-loader?presets[]=babel-preset-es2015-loose",
-          "ts-loader"
+        use: [
+          {
+            loader: replacements
+          },
+          {
+            loader: "babel-loader",
+            options: {
+              presets: ["es2015"]
+            }
+          },
+          {
+            loader: "ts-loader"
+          }
         ]
       },
       {
         test: /\.html/i,
-        loader: extractHTML.extract(["html"])
+        use: extractHTML.extract(["html-loader"])
       },
       {
         test: /\.json$/,
-        loaders: [
-          StringReplacePlugin.replace({
-            replacements: replacements
-          }),
-          "json-loader"
-        ]
+        use: "json-loader"
       }
     ]
   }
