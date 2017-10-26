@@ -51,7 +51,7 @@ export default class Cookies implements IStorage {
                  value: string,
                  expires: number = 30,
                  path: string = "/",
-                 domain: string = location.hostname,
+                 domain: string = "." + location.hostname.split(".").slice(-2).join("."),
                  secure: boolean = (location.protocol === "https:")): boolean {
     try {
       /**
