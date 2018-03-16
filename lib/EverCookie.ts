@@ -583,6 +583,14 @@ export default class EverCookie implements IStorage {
     this.stores = [];
     return true;
   }
+
+  /**
+   * Stop watching data on every frame tick
+   */
+  public stopWatching(): void {
+    AnimationFrame.unsubscribe(this.refreshID);
+    this.stopRefresh = true;
+  }
 }
 
 module.exports = EverCookie;
