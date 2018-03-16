@@ -112,7 +112,7 @@ export default class EverCookie implements IStorage {
      * Self refresh
      */
     if (this.isSupported()) {
-      this.refreshID = this.start();
+      this.start();
     }
   }
 
