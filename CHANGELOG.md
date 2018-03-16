@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.0.22"></a>
+## [1.0.22](https://github.com/CrazySquirrel/EverCookie/compare/v1.0.21...v1.0.22) (2018-03-16)
+
+
+### Bug Fixes
+
+* **AnimationFrame:** New stop/start methods ([9899a67](https://github.com/CrazySquirrel/EverCookie/commit/9899a67))
+
+
+
 <a name="1.0.21"></a>
 ## [1.0.21](https://github.com/CrazySquirrel/EverCookie/compare/v1.0.20...v1.0.21) (2017-10-26)
 
