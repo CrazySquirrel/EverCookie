@@ -112,7 +112,7 @@ export default class EverCookie implements IStorage {
      * Self refresh
      */
     if (this.isSupported()) {
-      this.refreshID = AnimationFrame.subscribe(this, this.refresh, []);
+      this.refreshID = this.start();
     }
   }
 
@@ -575,19 +575,27 @@ export default class EverCookie implements IStorage {
    * Stop every cookie
    */
   public destroy(): boolean {
-    AnimationFrame.unsubscribe(this.refreshID);
-    this.stopRefresh = true;
+    this.stop();
+
     this.refresh = () => {
       return null;
     };
     this.stores = [];
+
     return true;
+  }
+
+  /**
+   * Start watching data on every frame tick
+   */
+  public start(): void {
+    this.refreshID = AnimationFrame.subscribe(this, this.refresh);
   }
 
   /**
    * Stop watching data on every frame tick
    */
-  public stopWatching(): void {
+  public stop(): void {
     AnimationFrame.unsubscribe(this.refreshID);
     this.stopRefresh = true;
   }
