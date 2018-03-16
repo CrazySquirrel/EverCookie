@@ -36,6 +36,7 @@ LocalEverCookie.removeItem(checkSupport, key);
 LocalEverCookie.getKeys(checkSupport);
 LocalEverCookie.clear(checkSupport);
 LocalEverCookie.destroy();
+LocalEverCookie.stopWatching();
 ```
 
 or
@@ -51,4 +52,5 @@ LocalEverCookie.removeItem(checkSupport, key);
 LocalEverCookie.getKeys(checkSupport);
 LocalEverCookie.clear(checkSupport);
 LocalEverCookie.destroy();
+LocalEverCookie.stopWatching();
 ```
