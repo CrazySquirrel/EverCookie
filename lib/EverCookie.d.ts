@@ -99,9 +99,9 @@ export default class EverCookie implements IStorage {
     /**
      * Start watching data on every frame tick
      */
-    start(): void;
+    start(): boolean;
     /**
      * Stop watching data on every frame tick
      */
-    stop(): void;
+    stop(): boolean;
 }

@@ -588,16 +588,18 @@ export default class EverCookie implements IStorage {
   /**
    * Start watching data on every frame tick
    */
-  public start(): void {
+  public start(): boolean {
     this.refreshID = AnimationFrame.subscribe(this, this.refresh);
+    return true;
   }
 
   /**
    * Stop watching data on every frame tick
    */
-  public stop(): void {
+  public stop(): boolean {
     AnimationFrame.unsubscribe(this.refreshID);
     this.stopRefresh = true;
+    return true;
   }
 }
 
