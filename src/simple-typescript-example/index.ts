@@ -11,3 +11,4 @@ window.document.write("<b>EverCookie get keys</b>: " + LocalEverCookie.getKeys(t
 window.document.write("<b>EverCookie remove item</b>: " + LocalEverCookie.removeItem(true, "test") + "<br/>");
 window.document.write("<b>EverCookie clear</b>: " + LocalEverCookie.clear(true) + "<br/>");
 window.document.write("<b>EverCookie destroy</b>: " + LocalEverCookie.destroy() + "<br/>");
+window.document.write("<b>EverCookie stopWatching</b>: " + LocalEverCookie.stopWatching() + "<br/>");
