@@ -1,7 +1,6 @@
 .idea
 doc
 dist
-lib/*.js
 node_modules
 *.log
 *.DS_Store
