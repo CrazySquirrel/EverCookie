@@ -28,4 +28,7 @@ interface ISessionStorage {
      */
     removeItem(key: string): void;
 }
+/**
+ * Export the ISessionStorage interface
+ */
 export default ISessionStorage;

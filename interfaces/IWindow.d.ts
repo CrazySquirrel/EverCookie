@@ -27,4 +27,7 @@ interface IWindow {
     Debug: IDebug;
     setTimeout(callback: Function, time: number): number;
 }
+/**
+ * Export the window interface
+ */
 export default IWindow;

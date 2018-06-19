@@ -111,4 +111,7 @@ interface IDebug {
      */
     _debug(strMessage: any, ...AdditionalMessage: Array<any>): void;
 }
+/**
+ * Export the IDebug interface
+ */
 export default IDebug;

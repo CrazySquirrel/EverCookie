@@ -28,4 +28,7 @@ interface ILocalStorage {
      */
     removeItem(key: string): void;
 }
+/**
+ * Export the ILocalStorage interface
+ */
 export default ILocalStorage;

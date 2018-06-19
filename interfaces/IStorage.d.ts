@@ -46,4 +46,7 @@ interface IStorage {
      */
     clear(checkSupport: boolean): boolean;
 }
+/**
+ * Export the IStorage interface
+ */
 export default IStorage;
