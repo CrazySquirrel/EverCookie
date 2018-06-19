@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.0.25"></a>
+## [1.0.25](https://github.com/CrazySquirrel/EverCookie/compare/v1.0.24...v1.0.25) (2018-06-19)
+
+
+### Bug Fixes
+
+* **Cookie:** Bug on main domain ([8be02b4](https://github.com/CrazySquirrel/EverCookie/commit/8be02b4)), closes [#6](https://github.com/CrazySquirrel/EverCookie/issues/6)
+
+
+
 <a name="1.0.24"></a>
 ## [1.0.24](https://github.com/CrazySquirrel/EverCookie/compare/v1.0.23...v1.0.24) (2018-03-21)
 
