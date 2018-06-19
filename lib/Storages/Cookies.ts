@@ -51,10 +51,10 @@ export default class Cookies implements IStorage {
                  value: string,
                  expires: number = 30,
                  path: string = "/",
-                 domain: string = "",
+                 domain: string|undefined = undefined,
                  secure: boolean = (location.protocol === "https:")): boolean {
     try {
-      if (!domain) {
+      if (typeof domain === "undefined") {
         const d = location.hostname.split(".");
         domain = (d.length > 2 ? "." : "") + d.join(".");
       }

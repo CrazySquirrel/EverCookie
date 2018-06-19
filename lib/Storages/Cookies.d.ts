@@ -32,7 +32,7 @@ export default class Cookies implements IStorage {
      * @param secure {boolean}
      * @return {boolean}
      */
-    setItem(checkSupport: boolean, key: string, value: string, expires?: number, path?: string, domain?: string, secure?: boolean): boolean;
+    setItem(checkSupport: boolean, key: string, value: string, expires?: number, path?: string, domain?: string | undefined, secure?: boolean): boolean;
     /**
      * The method reads the value and returns it or returns false if the value does not exist
      * @param checkSupport {boolean}
